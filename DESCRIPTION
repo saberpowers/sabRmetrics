@@ -1,0 +1,25 @@
+Package: sabRmetrics
+Title: Download MLB and minor league data from the statsapi.mlb.com and baseballsavant.mlb.com
+Version: 0.0.0.9000
+Authors@R: 
+    person("Scott", "Powers", email = "scott.powers@rice.edu", role = c("aut", "cre"))
+Description: The primary purpose of this package is to download high-fidelity MLB data from statsapi.mlb.com and to organize the resulting data in a collection of tables (as opposed to the single table). This package also has functionality to download data from baseballsavant.mlb.com because some Statcast data are not available through the statsapi. The package also offers code for fundamental modeling such as base-out run expectancy and count values.
+License: GPL (>= 3)
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Imports:
+  dplyr,
+  glue,
+  jsonlite,
+  lubridate,
+  pbapply,
+  stringr,
+  tibble,
+  tidyr
+Suggests:
+  parallel,
+  testthat (>= 3.0.0)
+Config/testthat/edition: 3
+URL: https://github.com/saberpowers/sabRmetrics
+BugReports: https://github.com/saberpowers/sabRmetrics/issues
