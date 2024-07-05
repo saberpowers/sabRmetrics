@@ -1,4 +1,7 @@
 url: ~
 template:
   bootstrap: 5
-  bootswatch: solar
+  bootswatch: superhero
+  bslib:
+    primary: "#268bd2"
+  theme: solarized-dark
