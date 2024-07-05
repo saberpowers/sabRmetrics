@@ -13,12 +13,13 @@ Imports:
   glue,
   jsonlite,
   lubridate,
-  parallel,
   pbapply,
+  stringr,
   tibble,
   tidyr
-Suggests: 
-    testthat (>= 3.0.0)
+Suggests:
+  parallel,
+  testthat (>= 3.0.0)
 Config/testthat/edition: 3
 URL: https://github.com/saberpowers/sabRmetrics
 BugReports: https://github.com/saberpowers/sabRmetrics/issues
