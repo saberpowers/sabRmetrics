@@ -1,5 +1,9 @@
 # sabRmetrics
 
+[<img
+src="https://github.com/saberpowers/sabRmetrics/workflows/R-CMD-check/badge.svg"
+target="_blank" alt="R build status" />](https://github.com/saberpowers/sabRmetrics/actions)
+
 The primary purpose of this package is to download high-fidelity MLB data from the statsapi.mlb.com and to organize the resulting data in a collection of tables (as opposed to the single table). This package also has functionality to download data from baseballsavant.mlb.com because some Statcast data are not available through the statsapi. The package also offers code for fundamental modeling such as base-out run expectancy and count values.
 
 ## Installation
