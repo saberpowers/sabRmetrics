@@ -1,4 +1,7 @@
-url: ~
+authors:
+  Scott Powers:
+    href: https://saberpowers.github.io/
+url: https://saberpowers.github.io/sabRmetrics/
 template:
   bootstrap: 5
   bootswatch: superhero
