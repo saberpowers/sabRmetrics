@@ -1,9 +1,9 @@
 Package: sabRmetrics
-Title: Download MLB and minor league data from the statsapi.mlb.com and baseballsavant.mlb.com
-Version: 0.0.0.9002
+Title: Query {statsapi,baseballsavant}.mlb.com and fit fundamental sabermetric models
+Version: 0.0.0.9003
 Authors@R: 
     person("Scott", "Powers", email = "scott.powers@rice.edu", role = c("aut", "cre"))
-Description: The primary purpose of this package is to download high-fidelity MLB data from statsapi.mlb.com and to organize the resulting data in a collection of tables (as opposed to the single table). This package also has functionality to download data from baseballsavant.mlb.com because some Statcast data are not available through the statsapi. The package also offers code for fundamental modeling such as base-out run expectancy and count values.
+Description: The highest-fidelity raw MLB data are available from statsapi.mlb.com and baseballsavant.mlb.com, and some minor league data are available from these APIs as well. This package provides functions to query those APIs, returning the data in a collection of well-factored tables (as opposed to returning a single table). Additionally, this package offers functions to estimate base-out run expectancy; estimate count values; and recover the full estimated quadratic trajectory of a pitch from pitch tracking data.
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
