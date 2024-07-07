@@ -1,2 +1,4 @@
+Did you ...
 
-- [ ] package version number incremented
+- [ ] increment the package version number?
+- [ ] update the changelog (NEWS.md)?
