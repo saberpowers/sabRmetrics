@@ -4,13 +4,17 @@
 \alias{get_quadratic_coef}
 \title{Get quadratic coefficients for pitch data}
 \usage{
-get_quadratic_coef(data)
+get_quadratic_coef(data, source = c("statsapi", "baseballsavant"))
 }
 \arguments{
-\item{data}{a dataframe with the following columns: ax, ay, az, vx0, vy0, vz0, x0, z0, extension}
+\item{data}{a dataframe with the columns required for calculating the quadratic coefficients.
+If \verb{source = "statsapi", then ax, ay, az, vx0, vy0, vz0, x0, z0, and extension are required. If }source = "baseballsavant", then ax, ay, az, vx0, vy0, vz0, release_pos_x, release_pos_y,
+and release_pos_z are required.}
+
+\item{source}{character string, either "statsapi" (default) or "baseballsavant"}
 }
 \value{
-the input dataframe the following columns added: cy, y0, t0, bx, by, bz, cx, cz
+the input dataframe the following columns added: bx, by, bz, cx, cy, cz, y0, t0
 }
 \description{
 Find coefficients such that the path of the ball through time is given by:

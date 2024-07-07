@@ -1,4 +1,4 @@
-#' Compute base-out run expectancy
+#' Estimate base-out run expectancy
 #' 
 #' Model base-out transitions as a Markov chain and find the probability of each terminal state
 #' (including runs scored) from any initial state.
@@ -9,7 +9,7 @@
 #' 
 #' @export
 #' 
-compute_base_out_run_exp <- function(event) {
+estimate_base_out_run_exp <- function(event) {
   
   base_out_transition <- event |>
     dplyr::filter(event != "Game Advisory") |>

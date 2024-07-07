@@ -1,4 +1,4 @@
-#' Compute count value
+#' Estimate count value
 #' 
 #' Compute the average change in base-out run expectancy for all plate appearances that run
 #' through each count.
@@ -6,13 +6,13 @@
 #' @param play dataframe of play data from \code{\link{download_statsapi}}
 #' @param event dataframe of event data from \code{\link{download_statsapi}}
 #' @param base_out_run_exp dataframe of base-out run expectancy from
-#'   \code{\link{compute_base_out_run_exp}}
+#'   \code{\link{estimate_base_out_run_exp}}
 #' 
 #' @return a dataframe of `count_value` indexed by `balls` and `strikes`
 #' 
 #' @export
 #' 
-compute_count_value <- function(play, event, base_out_run_exp) {
+estimate_count_value <- function(play, event, base_out_run_exp) {
 
   data <- play |>
     dplyr::filter(type == "pitch", pre_balls < 4, pre_strikes < 3) |>  # this can happen in the data

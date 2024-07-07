@@ -51,7 +51,102 @@ download_baseballsavant <- function(start_date, end_date, cl = NULL) {
     cl = cl
   )
 
-  data <- do.call(dplyr::bind_rows, args = data_list)
+  data <- do.call(dplyr::bind_rows, args = data_list) |>
+    tibble::as_tibble() |>
+    # re-define columns as needed to match statsapi
+    dplyr::mutate(
+      event_index = at_bat_number - 1,
+      half_inning = dplyr::case_when(
+        inning_topbot == "Top" ~ "top",
+        inning_topbot == "Bot" ~ "bottom"
+      )
+    ) |>
+    # re-order and re-name columns (but don't drop any)
+    dplyr::select(
+      # pitch identifiers (for joining on pitch table from statsapi)
+      game_id = game_pk,
+      year = game_year,
+      event_index,
+      pitch_number,
+      # player and team identifiers
+      home_team,
+      away_team,
+      batter_id = batter,
+      bat_side = stand,
+      batter_name = player_name,
+      pitcher_id = pitcher,
+      pitch_hand = p_throws,
+      pre_runner_1b_id = on_1b,
+      pre_runner_2b_id = on_2b,
+      pre_runner_3b_id = on_3b,
+      fielder_2_id = fielder_2,
+      fielder_3_id = fielder_3,
+      fielder_4_id = fielder_4,
+      fielder_5_id = fielder_5,
+      fielder_6_id = fielder_6,
+      fielder_7_id = fielder_7,
+      fielder_8_id = fielder_8,
+      fielder_9_id = fielder_9,
+      # context
+      inning,
+      half_inning,
+      outs = outs_when_up,
+      balls,
+      strikes,
+      if_fielding_alignment,
+      of_fielding_alignment,
+      # pitch tracking
+      pitch_type,
+      ## here are the features you need to recreate the full quadratic trajectory of the pitch
+      ax,
+      ay,
+      az,
+      vx0,
+      vy0,
+      vz0,
+      release_pos_x,
+      release_pos_y,
+      release_pos_z,
+      ## here are the highly interpretable features that are functions of the quadratic trajectory
+      release_speed,
+      extension = release_extension,
+      effective_speed,
+      pfx_x,
+      pfx_z,
+      plate_x,
+      plate_z,
+      zone,
+      ## here are the additional features that can't be derived from the quadratic trajectory
+      release_spin_rate,
+      spin_axis,
+      strike_zone_top = sz_top,
+      strike_zone_bottom = sz_bot,
+      # swing tracking
+      bat_speed,
+      swing_length,
+      # batted ball tracking
+      launch_speed,
+      launch_angle,
+      expected_woba = estimated_woba_using_speedangle,
+      expected_babip = estimated_ba_using_speedangle,
+      hit_coord_x = hc_x,
+      hit_coord_y = hc_y,
+      hit_distance_sc,
+      bb_type,
+      hit_location,
+      # outcome
+      type,
+      description,
+      events,
+      woba_denom,
+      woba_value,
+      babip_value,
+      iso_value,
+      delta_run_exp,
+      delta_home_win_exp,
+      # retain all other columns, but keep them last because they don't have a clear use case
+      dplyr::everything()
+    )
 
   return(data)
 }
