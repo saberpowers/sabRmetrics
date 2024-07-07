@@ -1,57 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>/404.html</loc>
+    <loc>https://saberpowers.github.io/sabRmetrics/404.html</loc>
   </url>
   <url>
-    <loc>/LICENSE.html</loc>
+    <loc>https://saberpowers.github.io/sabRmetrics/LICENSE.html</loc>
   </url>
   <url>
-    <loc>/authors.html</loc>
+    <loc>https://saberpowers.github.io/sabRmetrics/authors.html</loc>
   </url>
   <url>
-    <loc>/index.html</loc>
+    <loc>https://saberpowers.github.io/sabRmetrics/index.html</loc>
   </url>
   <url>
-    <loc>/news/index.html</loc>
+    <loc>https://saberpowers.github.io/sabRmetrics/news/index.html</loc>
   </url>
   <url>
-    <loc>/reference/download_baseballsavant.html</loc>
+    <loc>https://saberpowers.github.io/sabRmetrics/reference/download_baseballsavant.html</loc>
   </url>
   <url>
-    <loc>/reference/download_statsapi.html</loc>
+    <loc>https://saberpowers.github.io/sabRmetrics/reference/download_statsapi.html</loc>
   </url>
   <url>
-    <loc>/reference/estimate_base_out_run_exp.html</loc>
+    <loc>https://saberpowers.github.io/sabRmetrics/reference/estimate_base_out_run_exp.html</loc>
   </url>
   <url>
-    <loc>/reference/estimate_count_value.html</loc>
+    <loc>https://saberpowers.github.io/sabRmetrics/reference/estimate_count_value.html</loc>
   </url>
   <url>
-    <loc>/reference/extract_fielding_lineup.html</loc>
+    <loc>https://saberpowers.github.io/sabRmetrics/reference/extract_fielding_lineup.html</loc>
   </url>
   <url>
-    <loc>/reference/extract_game.html</loc>
+    <loc>https://saberpowers.github.io/sabRmetrics/reference/extract_game.html</loc>
   </url>
   <url>
-    <loc>/reference/extract_schedule.html</loc>
+    <loc>https://saberpowers.github.io/sabRmetrics/reference/extract_schedule.html</loc>
   </url>
   <url>
-    <loc>/reference/get_quadratic_coef.html</loc>
+    <loc>https://saberpowers.github.io/sabRmetrics/reference/get_quadratic_coef.html</loc>
   </url>
   <url>
-    <loc>/reference/get_trackman_metrics.html</loc>
+    <loc>https://saberpowers.github.io/sabRmetrics/reference/get_trackman_metrics.html</loc>
   </url>
   <url>
-    <loc>/reference/index.html</loc>
+    <loc>https://saberpowers.github.io/sabRmetrics/reference/index.html</loc>
   </url>
   <url>
-    <loc>/reference/replace_null.html</loc>
+    <loc>https://saberpowers.github.io/sabRmetrics/reference/replace_null.html</loc>
   </url>
   <url>
-    <loc>/reference/track_base_out_by_event.html</loc>
+    <loc>https://saberpowers.github.io/sabRmetrics/reference/track_base_out_by_event.html</loc>
   </url>
   <url>
-    <loc>/reference/track_base_out_by_play.html</loc>
+    <loc>https://saberpowers.github.io/sabRmetrics/reference/track_base_out_by_play.html</loc>
   </url>
 </urlset>
