@@ -1,5 +1,4 @@
 
-# sabRmetrics 0.0.0.9003
+# sabRmetrics 1.0.0
 
-- Rename and reorganize columns returned by `download_baseballsavant`
-- Provide baseballsavant option for `get_quadratic_coef`
+- Initial release!
