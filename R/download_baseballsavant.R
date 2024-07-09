@@ -71,13 +71,14 @@ download_baseballsavant <- function(start_date, end_date, cl = NULL, verbose = T
       X = url_seq[is_error],
       FUN = function(url) {
         data <- try(
-          httr::content(
+          expr = httr::content(
             httr::GET(url),
-            type = "text/csv",
+            type = "text/csv",    # requires readr::read_csv
             encoding = "UTF-8",
             name_repair = "universal_quiet",
             show_col_types = FALSE
-          )
+          ),
+          silent = TRUE
         )
         if ("try-error" %in% class(data)) {
           return("error")
@@ -126,12 +127,12 @@ download_baseballsavant <- function(start_date, end_date, cl = NULL, verbose = T
       batter_id = batter,
       bat_side = stand,
       batter_name = player_name,
-      pitcher_id = pitcher...8,       # unfortunate consequence of read_csv's name_repair
+      pitcher_id = pitcher...8,       # unfortunate consequence of readr::read_csv's name_repair
       pitch_hand = p_throws,
       pre_runner_1b_id = on_1b,
       pre_runner_2b_id = on_2b,
       pre_runner_3b_id = on_3b,
-      fielder_2_id = fielder_2...42,  # unfortunate consequence of read_csv's name_repair
+      fielder_2_id = fielder_2...42,  # unfortunate consequence of readr::read_csv's name_repair
       fielder_3_id = fielder_3,
       fielder_4_id = fielder_4,
       fielder_5_id = fielder_5,
