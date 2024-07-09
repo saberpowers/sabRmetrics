@@ -1,5 +1,5 @@
 
-# sabRmetrics 1.0.1 (2024-07-08)
+# sabRmetrics 1.0.1 (2024-07-09)
 
 - Make the baseballsavant download more robust
 
