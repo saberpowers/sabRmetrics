@@ -33,7 +33,7 @@ download_statsapi <- function(start_date, end_date, level = c("mlb", "aaa"), cl 
       while (!is_success & num_attempts < 3) {
         Sys.sleep(0.1)  # Avoid being rate-limited by statsapi
         data <- try(extract_game(game_id))
-        if (class(data) == "try-error") {
+        if ("try-error" %in% class(data)) {
           num_attempts <- num_attempts + 1
           data <- NULL
           Sys.sleep(5)  # Take a long pause in case it helps avoid network error
