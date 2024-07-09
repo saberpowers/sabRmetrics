@@ -9,7 +9,7 @@ This includes swing tracking data not available through the MLB statsapi."></hea
 
     <a class="navbar-brand me-2" href="../index.html">sabRmetrics</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,7 +31,7 @@ This includes swing tracking data not available through the MLB statsapi."></hea
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Download MLB data from baseballsavant.mlb.com</h1>
-      <small class="dont-index">Source: <a href="https://github.com/saberpowers/sabRmetrics/blob/v1.0.0/R/download_baseballsavant.R" class="external-link"><code>R/download_baseballsavant.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/saberpowers/sabRmetrics/blob/main/R/download_baseballsavant.R" class="external-link"><code>R/download_baseballsavant.R</code></a></small>
       <div class="d-none name"><code>download_baseballsavant.Rd</code></div>
     </div>
 
@@ -42,7 +42,7 @@ This includes swing tracking data not available through the MLB statsapi.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">download_baseballsavant</span><span class="op">(</span><span class="va">start_date</span>, <span class="va">end_date</span>, cl <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">download_baseballsavant</span><span class="op">(</span><span class="va">start_date</span>, <span class="va">end_date</span>, cl <span class="op">=</span> <span class="cn">NULL</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -60,10 +60,14 @@ This includes swing tracking data not available through the MLB statsapi.</p>
 <dt id="arg-cl">cl<a class="anchor" aria-label="anchor" href="#arg-cl"></a></dt>
 <dd><p>optional cluster object for parallel computation, default is NULL (not parallel)</p></dd>
 
+
+<dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
+<dd><p>logical, should progress be printed to console?</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>a dataframe with 94 columns and one row per pitch, with all available data</p>
+    <p>a dataframe with one row per pitch and all available columns</p>
     </div>
 
     <div class="section level2">
