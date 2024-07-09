@@ -4,7 +4,7 @@
 \alias{download_baseballsavant}
 \title{Download MLB data from baseballsavant.mlb.com}
 \usage{
-download_baseballsavant(start_date, end_date, cl = NULL)
+download_baseballsavant(start_date, end_date, cl = NULL, verbose = TRUE)
 }
 \arguments{
 \item{start_date}{first date included in the download}
@@ -12,9 +12,11 @@ download_baseballsavant(start_date, end_date, cl = NULL)
 \item{end_date}{last date included in the download}
 
 \item{cl}{optional cluster object for parallel computation, default is NULL (not parallel)}
+
+\item{verbose}{logical, should progress be printed to console?}
 }
 \value{
-a dataframe with 94 columns and one row per pitch, with all available data
+a dataframe with one row per pitch and all available columns
 }
 \description{
 Loop over five days at a time to download data from the Statcast search API at Baseball Savant.

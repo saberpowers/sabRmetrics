@@ -6,8 +6,9 @@
 #' @param start_date first date included in the download
 #' @param end_date last date included in the download
 #' @param cl optional cluster object for parallel computation, default is NULL (not parallel)
+#' @param verbose logical, should progress be printed to console?
 #' 
-#' @return a dataframe with 94 columns and one row per pitch, with all available data
+#' @return a dataframe with one row per pitch and all available columns
 #' 
 #' @export
 #' 
@@ -19,7 +20,12 @@
 #'    )
 #' }
 #' 
-download_baseballsavant <- function(start_date, end_date, cl = NULL) {
+download_baseballsavant <- function(start_date, end_date, cl = NULL, verbose = TRUE) {
+
+  pbo <- pbapply::pboptions()   # store inital progress bar options so that we can reset them
+  if (!verbose) {
+    pbapply::pboptions(type = "none")
+  }
 
   # Trim start date and end date to range of actual games
   schedule <- extract_schedule(start_date, end_date, level = "mlb")
@@ -33,23 +39,69 @@ download_baseballsavant <- function(start_date, end_date, cl = NULL) {
   # data, but more days would risk hitting the 25,000-row limit.
   days <- as.numeric(as.Date(end_date) - as.Date(start_date))
   start_date_seq <- as.Date(start_date) + seq(from = 0, by = 5, to = days)
+  base_url <- "https://baseballsavant.mlb.com/statcast_search/csv?all=true&type=details"
+  url_seq <- glue::glue("{base_url}&game_date_gt={start_date_seq}&game_date_lt={start_date_seq + 4}")
 
-  data_list <- pbapply::pblapply(
-    X = start_date_seq,
-    FUN = function(start_date) {
-      end_date <- start_date + 4
-      base_url <- "https://baseballsavant.mlb.com/statcast_search/csv?all=true&type=details"
-      url <- glue::glue("{base_url}&game_date_gt={start_date}&game_date_lt={end_date}")
-      data <- read.csv(url(url))
-      if (nrow(data) == 25000) {
-        warning(
-          glue::glue("Exactly 25,000 rows returned for {start_date} to {end_date}")
-        )
-      }
-      return(data)
+  # The baseballsavant API can take some time to respond (often over 1 minute). To speed up this
+  # process, we submit all requests right away without waiting for a response. The API gets to work
+  # on these queries and returns them the next time we ask for them (later on in the script).
+  if (verbose) {
+    message("Submitting initial API requests...")
+  }
+  initial_request <- pbapply::pblapply(
+    X = url_seq,
+    FUN = function(url) {
+      try(httr::GET(url, httr::timeout(1)))
     },
     cl = cl
   )
+
+  if (verbose) {
+    message(glue::glue("Trying to download {length(url_seq)} payload(s)..."))
+  }
+
+  # Initialize our list of data payloads, treating all of them as errors before successful download
+  data_list <- lapply(X = url_seq, FUN = function(x) return("error"))
+  names(data_list) <- url_seq
+  is_error <- sapply(data_list, FUN = function(x) identical(x, "error"))
+
+  while(any(is_error)) {
+
+    data_list[url_seq[is_error]] <- pbapply::pblapply(
+      X = url_seq[is_error],
+      FUN = function(url) {
+        data <- try(
+          httr::content(
+            httr::GET(url),
+            type = "text/csv",
+            encoding = "UTF-8",
+            name_repair = "universal_quiet",
+            show_col_types = FALSE
+          )
+        )
+        if ("try-error" %in% class(data)) {
+          return("error")
+        } else if (nrow(data) == 25000) {
+          warning(
+            glue::glue("Exactly 25,000 rows returned for {url}")
+          )
+        } else if (nrow(data) == 0) { # this can happen when the date range includes no tracked games
+          return(NULL)
+        }
+        return(data)
+      },
+      cl = cl
+    )
+
+    # We only want to re-try to download the failed payloads
+    is_error <- sapply(data_list, FUN = function(x) identical(x, "error"))
+
+    if (verbose && sum(is_error) > 0) {
+      message(glue::glue("{sum(is_error)} download(s) timed out. Retrying..."))
+    }
+  }
+
+  pbapply::pboptions(pbo)   # put progress bar options back where we found them
 
   data <- do.call(dplyr::bind_rows, args = data_list) |>
     tibble::as_tibble() |>
@@ -74,12 +126,12 @@ download_baseballsavant <- function(start_date, end_date, cl = NULL) {
       batter_id = batter,
       bat_side = stand,
       batter_name = player_name,
-      pitcher_id = pitcher,
+      pitcher_id = pitcher...8,       # unfortunate consequence of read_csv's name_repair
       pitch_hand = p_throws,
       pre_runner_1b_id = on_1b,
       pre_runner_2b_id = on_2b,
       pre_runner_3b_id = on_3b,
-      fielder_2_id = fielder_2,
+      fielder_2_id = fielder_2...42,  # unfortunate consequence of read_csv's name_repair
       fielder_3_id = fielder_3,
       fielder_4_id = fielder_4,
       fielder_5_id = fielder_5,
