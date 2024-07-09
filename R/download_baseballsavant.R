@@ -51,7 +51,7 @@ download_baseballsavant <- function(start_date, end_date, cl = NULL, verbose = T
   initial_request <- pbapply::pblapply(
     X = url_seq,
     FUN = function(url) {
-      try(httr::GET(url, httr::timeout(1)))
+      try(httr::GET(url, httr::timeout(1)), silent = TRUE)
     },
     cl = cl
   )
