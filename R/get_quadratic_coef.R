@@ -7,9 +7,9 @@
 #' We start with velocity and location of ball when y = 50 and use extension to derive coefficients
 #' 
 #' @param data a dataframe with the columns required for calculating the quadratic coefficients.
-#'   If `source = "statsapi", then ax, ay, az, vx0, vy0, vz0, x0, z0, and extension are required.
-#'   If `source = "baseballsavant", then ax, ay, az, vx0, vy0, vz0, release_pos_x, release_pos_y,
-#'   and release_pos_z are required.
+#'   If `source = "statsapi"`, then `ax`, `ay`, `az`, `vx0`, `vy0`, `vz0`, `x0`, `z0`, and
+#'   `extension` are required. If `source = "baseballsavant"`, then `ax`, `ay`, `az`, `vx0`, `vy0`,
+#'   `vz0`, `release_pos_x`, `release_pos_y`, and `release_pos_z` are required.
 #' @param source character string, either "statsapi" (default) or "baseballsavant"
 #' 
 #' @return the input dataframe the following columns added: bx, by, bz, cx, cy, cz, y0, t0
