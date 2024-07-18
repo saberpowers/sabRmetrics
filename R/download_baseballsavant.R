@@ -14,7 +14,7 @@
 #' 
 #' @examples
 #' \dontrun{
-#'    data_statsapi <- sabRmetrics::download_statsapi(
+#'    data_statsapi <- download_statsapi(
 #'      start_date = "2024-07-01",
 #'      end_date = "2024-07-01"
 #'    )
