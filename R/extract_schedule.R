@@ -20,7 +20,7 @@ extract_schedule <- function(start_date, end_date, level = c("mlb", "aaa")) {
   start <- format(as.Date(start_date), "%m/%d/%Y")
   end <- format(as.Date(end_date), "%m/%d/%Y")
   sport_id <- switch(level, mlb = 1, aaa = 11)
-  schedule_filter <- glue::glue("sportId={sport_id}&gameType=R&startDate={start}&endDate={end}")
+  schedule_filter <- glue::glue("sportId={sport_id}&startDate={start}&endDate={end}")
   endpoint <- glue::glue("http://statsapi.mlb.com:80/api/v1/schedule?{schedule_filter}")
 
   schedule_json <- jsonlite::fromJSON(endpoint, flatten = TRUE)
