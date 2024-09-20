@@ -41,9 +41,13 @@ extract_schedule <- function(start_date, end_date, level = c("mlb", "aaa")) {
       game_id = gamePk,
       year = season,
       date = officialDate,
+      venue_id = venue.id,
       team_id_away = teams.away.team.id,
+      team_name_away = teams.away.team.name,
+      score_away = teams.away.score,
       team_id_home = teams.home.team.id,
-      venue_id = venue.id
+      team_name_home = teams.home.team.name,
+      score_home = teams.home.score
     )
   
   return(game)
