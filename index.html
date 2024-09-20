@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">sabRmetrics</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -60,8 +60,11 @@
 <div class="section level2">
 <h2 id="downloading-data">Downloading data<a class="anchor" aria-label="anchor" href="#downloading-data"></a>
 </h2>
-<p>Most important data are available from statsapi.mlb.com. The function below returns four tables: game, event, pitch and play. - The <em>game</em> table holds game-level information, such as teams, venue and date. - The <em>event</em> table holds plate-appearance-level information, such as base-out state, players and outcome. - The <em>pitch</em> table holds pitch-level information, such as pitch outcomes, pitch tracking and batted ball tracking. - The <em>play</em> table is similar to the pitch table except that it also includes data regarding pre-/post-base-out-state, including pickoff attempts and stolen base attempts (no tracking data).</p>
+<p>If all you want are game results, you can pull those very quickly.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">game</span> <span class="op">&lt;-</span> <span class="fu">sabRmetrics</span><span class="fu">::</span><span class="fu"><a href="reference/extract_schedule.html">extract_schedule</a></span><span class="op">(</span>start_date <span class="op">=</span> <span class="st">"2024-01-01"</span>, end_date <span class="op">=</span> <span class="st">"2024-12-31"</span><span class="op">)</span></span></code></pre></div>
+<p>Most important data are available from statsapi.mlb.com. The function below returns four tables: game, event, pitch and play. - The <em>game</em> table holds game-level information, such as teams, venue and date. - The <em>event</em> table holds plate-appearance-level information, such as base-out state, players and outcome. - The <em>pitch</em> table holds pitch-level information, such as pitch outcomes, pitch tracking and batted ball tracking. - The <em>play</em> table is similar to the pitch table except that it also includes data regarding pre-/post-base-out-state, including pickoff attempts and stolen base attempts (no tracking data).</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Typically takes about 5 seconds for a single game</span></span>
 <span><span class="va">data_statsapi</span> <span class="op">&lt;-</span> <span class="fu">sabRmetrics</span><span class="fu">::</span><span class="fu"><a href="reference/download_statsapi.html">download_statsapi</a></span><span class="op">(</span></span>
 <span>  start_date <span class="op">=</span> <span class="st">"2024-07-01"</span>,</span>
@@ -77,7 +80,7 @@
 <span><span class="co">#)</span></span>
 <span><span class="co">#parallel::stopCluster(cluster)</span></span></code></pre></div>
 <p>Some unique Statcast data are not available from statsapi.mlb.com, such as pitch spin and swing tracking. For these data, we turn to baseballsavant.mlb.com. The function below returns pitch-level data that can be joined with the pitch table from statsapi.mlb.com using columns <code>game_id</code>, <code>year</code>, <code>event_index</code> and <code>pitch_number</code>.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Typically takes about 30 seconds for the first query of a single game but drastically speeds</span></span>
 <span><span class="co"># up for subsequent queries of the same game because the API caches the results of the query</span></span>
 <span><span class="va">data_baseballsavant</span> <span class="op">&lt;-</span> <span class="fu">sabRmetrics</span><span class="fu">::</span><span class="fu"><a href="reference/download_baseballsavant.html">download_baseballsavant</a></span><span class="op">(</span></span>
@@ -87,7 +90,7 @@
 <span></span>
 <span><span class="co"># You can also run this function with parallel computation if you want to download more games</span></span>
 <span><span class="co">#cluster &lt;- parallel::makeCluster(parallel::detectCores())</span></span>
-<span><span class="co">#data_statsapi &lt;- sabRmetrics::download_baseballsavant(</span></span>
+<span><span class="co">#data_baseballsavant &lt;- sabRmetrics::download_baseballsavant(</span></span>
 <span><span class="co">#  start_date = "2024-01-01",</span></span>
 <span><span class="co">#  end_date = "2024-12-31",</span></span>
 <span><span class="co">#  cl = cluster</span></span>
@@ -98,11 +101,11 @@
 <h2 id="fitting-fundamental-models">Fitting fundamental models<a class="anchor" aria-label="anchor" href="#fitting-fundamental-models"></a>
 </h2>
 <p>Possibly the most fundamental model in sabermetrics is base-out run expectancy. The function below fits a Markov model assuming the state is specified by the bases occupied and the number of outs, using the empirical transition probabilities between states.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># You probably want at least one full season of data for this, maybe as many as three seasons</span></span>
 <span><span class="va">base_out_run_exp</span> <span class="op">&lt;-</span> <span class="fu">sabRmetrics</span><span class="fu">::</span><span class="fu"><a href="reference/estimate_base_out_run_exp.html">estimate_base_out_run_exp</a></span><span class="op">(</span>event <span class="op">=</span> <span class="va">data_statsapi</span><span class="op">$</span><span class="va">event</span><span class="op">)</span></span></code></pre></div>
 <p>A refinement on base-out run expectancy would be to include the ball-strike count in the state. Rather than expanding the Markov state to include count, the function below calculates the expected change in base-out run expectancy result from a plate appearance, conditional on the plate appearance passing through the specified count. We interpret this as the run value of the count, which allows us to measure the outcomes of individual pitches on the run scale.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># You probably want at least one full season of data for this, maybe as many as three seasons</span></span>
 <span><span class="va">count_value</span> <span class="op">&lt;-</span> <span class="fu">sabRmetrics</span><span class="fu">::</span><span class="fu"><a href="reference/estimate_count_value.html">estimate_count_value</a></span><span class="op">(</span></span>
 <span>  play <span class="op">=</span> <span class="va">data_datsapi</span><span class="op">$</span><span class="va">play</span>,</span>
@@ -110,7 +113,7 @@
 <span>  base_out_run_exp <span class="op">=</span> <span class="va">base_out_run_exp</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>Lastly, if you are working with pitch tracking data, a fundamentally useful step is to recreate the full estimated quadratic trajectory of the pitch. The vast majority of well-known pitch tracking metrics (e.g. horizontal/vertical break, plate location, approach angle) are derived from this estimated quadratic trajectory. The function <code>get_quadratic_coef</code> below calculates the coefficients required to reproduce the full trajectory from the data provided by either statsapi.mlb.com or baseballsavant.mlb.com. The function <code>get_trackman_metrics</code> below shows how to derive many well-known pitch tracking metrics from the quadratic coefficients.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pitch_statsapi</span> <span class="op">&lt;-</span> <span class="va">data_statsapi</span><span class="op">$</span><span class="va">pitch</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">sabRmetrics</span><span class="fu">::</span><span class="fu"><a href="reference/get_quadratic_coef.html">get_quadratic_coef</a></span><span class="op">(</span>source <span class="op">=</span> <span class="st">"statsapi"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">sabRmetrics</span><span class="fu">::</span><span class="fu"><a href="reference/get_trackman_metrics.html">get_trackman_metrics</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -163,7 +166,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer>
