@@ -8,8 +8,9 @@ get_quadratic_coef(data, source = c("statsapi", "baseballsavant"))
 }
 \arguments{
 \item{data}{a dataframe with the columns required for calculating the quadratic coefficients.
-If \verb{source = "statsapi", then ax, ay, az, vx0, vy0, vz0, x0, z0, and extension are required. If }source = "baseballsavant", then ax, ay, az, vx0, vy0, vz0, release_pos_x, release_pos_y,
-and release_pos_z are required.}
+If \code{source = "statsapi"}, then \code{ax}, \code{ay}, \code{az}, \code{vx0}, \code{vy0}, \code{vz0}, \code{x0}, \code{z0}, and
+\code{extension} are required. If \code{source = "baseballsavant"}, then \code{ax}, \code{ay}, \code{az}, \code{vx0}, \code{vy0},
+\code{vz0}, \code{release_pos_x}, \code{release_pos_y}, and \code{release_pos_z} are required.}
 
 \item{source}{character string, either "statsapi" (default) or "baseballsavant"}
 }
