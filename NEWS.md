@@ -1,4 +1,9 @@
 
+# sabRmetrics 1.0.3 (2024-10-18)
+
+- Allow user to specify game type in data download functions
+- Add new `get_video_url()` function
+
 # sabRmetrics 1.0.2 (2024-09-19)
 
 - Add team names and scores to `extract_schedule()`

@@ -4,7 +4,13 @@
 \alias{download_statsapi}
 \title{Download data from statsapi.mlb.com}
 \usage{
-download_statsapi(start_date, end_date, level = c("mlb", "aaa"), cl = NULL)
+download_statsapi(
+  start_date,
+  end_date,
+  level = c("mlb", "aaa"),
+  game_type = "R",
+  cl = NULL
+)
 }
 \arguments{
 \item{start_date}{first date included in the download}
@@ -12,6 +18,11 @@ download_statsapi(start_date, end_date, level = c("mlb", "aaa"), cl = NULL)
 \item{end_date}{last date included in the download}
 
 \item{level}{character string, "mlb" (default) or "aaa"}
+
+\item{game_type}{character vector of game types to include. Options are "R" (regular sesason),
+"F" (first-round playoff series, aka wild card), "D" (division series), "L" (league
+championship series), "W" (world series), "S" (spring training), "A" (all-star game),
+"E" (exhibition). Default is "R".}
 
 \item{cl}{optional cluster object for parallel computation, default is NULL (not parallel)}
 }

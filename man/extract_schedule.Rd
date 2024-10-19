@@ -4,7 +4,12 @@
 \alias{extract_schedule}
 \title{Extract schedule}
 \usage{
-extract_schedule(start_date, end_date, level = c("mlb", "aaa"))
+extract_schedule(
+  start_date,
+  end_date,
+  level = c("mlb", "aaa"),
+  game_type = "R"
+)
 }
 \arguments{
 \item{start_date}{first date included in the download}
@@ -12,6 +17,11 @@ extract_schedule(start_date, end_date, level = c("mlb", "aaa"))
 \item{end_date}{last date included in the download}
 
 \item{level}{character string, "mlb" (default) or "aaa"}
+
+\item{game_type}{character vector of game types to include. Options are "R" (regular sesason),
+"F" (first-round playoff series, aka wild card), "D" (division series), "L" (league
+championship series), "W" (world series), "S" (spring training), "A" (all-star game),
+"E" (exhibition). Default is "R".}
 }
 \value{
 a dataframe of games, with columns \code{game_id}, \code{year}, \code{date}, \code{team_id_away}, \code{team_id_home}, \code{venue_id}

@@ -5,6 +5,10 @@
 #' @param start_date first date included in the download
 #' @param end_date last date included in the download
 #' @param level character string, "mlb" (default) or "aaa"
+#' @param game_type character vector of game types to include. Options are "R" (regular sesason),
+#'   "F" (first-round playoff series, aka wild card), "D" (division series), "L" (league
+#'   championship series), "W" (world series), "S" (spring training), "A" (all-star game),
+#'   "E" (exhibition). Default is "R".
 #' @param cl optional cluster object for parallel computation, default is NULL (not parallel)
 #' 
 #' @return a list of four dataframes: `event`, `pitch`, `play` and game
@@ -19,7 +23,11 @@
 #'    )
 #' }
 #' 
-download_statsapi <- function(start_date, end_date, level = c("mlb", "aaa"), cl = NULL) {
+download_statsapi <- function(start_date,
+                              end_date,
+                              level = c("mlb", "aaa"),
+                              game_type = "R",
+                              cl = NULL) {
 
   game <- extract_schedule(start_date, end_date, level)
   year <- lubridate::year(start_date)
