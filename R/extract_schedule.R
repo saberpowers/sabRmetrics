@@ -53,6 +53,7 @@ extract_schedule <- function(start_date, end_date, level = c("mlb", "aaa"), game
     dplyr::arrange(officialDate) |>
     dplyr::select(
       game_id = gamePk,
+      game_type = gameType,
       year = season,
       date = officialDate,
       venue_id = venue.id,
