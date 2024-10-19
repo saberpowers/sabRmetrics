@@ -58,7 +58,6 @@ data_baseballsavant <- sabRmetrics::download_baseballsavant(
 #data_baseballsavant <- sabRmetrics::download_baseballsavant(
 #  start_date = "2024-01-01",
 #  end_date = "2024-12-31",
-#  game_type = c("R", "F", "D", "L", "W"),
 #  cl = cluster
 #)
 #parallel::stopCluster(cluster)
