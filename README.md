@@ -63,6 +63,14 @@ data_baseballsavant <- sabRmetrics::download_baseballsavant(
 #parallel::stopCluster(cluster)
 ```
 
+## Finding video for your data
+
+One benefit of using the MLB statsapi is that you can immediately pull up video for any pitch (or pickoff attempt) in your data using the `play_id` identifier.
+```R
+sabRmetrics::get_video_url("064e8918-e2b7-40f0-ac39-968932652154")
+#https://baseballsavant.mlb.com/sporty-videos?playId=064e8918-e2b7-40f0-ac39-968932652154
+```
+
 ## Fitting fundamental models
 
 Possibly the most fundamental model in sabermetrics is base-out run expectancy. The function below fits a Markov model assuming the state is specified by the bases occupied and the number of outs, using the empirical transition probabilities between states.
