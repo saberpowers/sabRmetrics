@@ -5,6 +5,10 @@
 #' 
 #' @param start_date first date included in the download
 #' @param end_date last date included in the download
+#' @param game_type character vector of game types to include. Options are "R" (regular sesason),
+#'   "F" (first-round playoff series, aka wild card), "D" (division series), "L" (league
+#'   championship series), "W" (world series), "S" (spring training), "A" (all-star game),
+#'   "E" (exhibition). Default is "R".
 #' @param cl optional cluster object for parallel computation, default is NULL (not parallel)
 #' @param verbose logical, should progress be printed to console?
 #' 
@@ -20,7 +24,13 @@
 #'    )
 #' }
 #' 
-download_baseballsavant <- function(start_date, end_date, cl = NULL, verbose = TRUE) {
+download_baseballsavant <- function(start_date,
+                                    end_date,
+                                    game_type = "R",
+                                    cl = NULL,
+                                    verbose = TRUE) {
+
+  game_type <- sanitize_game_type(game_type)
 
   pbo <- pbapply::pboptions()   # store inital progress bar options so that we can reset them
   if (!verbose) {
@@ -28,7 +38,7 @@ download_baseballsavant <- function(start_date, end_date, cl = NULL, verbose = T
   }
 
   # Trim start date and end date to range of actual games
-  schedule <- extract_schedule(start_date, end_date, level = "mlb")
+  schedule <- extract_schedule(start_date, end_date, level = "mlb", game_type = game_type)
   start_date <- min(schedule$date)
   end_date <- max(schedule$date)
 
@@ -38,9 +48,11 @@ download_baseballsavant <- function(start_date, end_date, cl = NULL, verbose = T
   # pitches per game, a day with 15 games will have 4,500 pitches. We can safely download 5 days of
   # data, but more days would risk hitting the 25,000-row limit.
   days <- as.numeric(as.Date(end_date) - as.Date(start_date))
-  start_date_seq <- as.Date(start_date) + seq(from = 0, by = 5, to = days)
+  start_seq <- as.Date(start_date) + seq(from = 0, by = 5, to = days)
   base_url <- "https://baseballsavant.mlb.com/statcast_search/csv?all=true&type=details"
-  url_seq <- glue::glue("{base_url}&game_date_gt={start_date_seq}&game_date_lt={start_date_seq + 4}")
+  gt_filter <- glue::glue("hfGT={paste0(game_type, '%7C', collapse = '')}")
+  date_filter <- glue::glue("game_date_gt={start_seq}&game_date_lt={pmin(start_seq + 4, end_date)}")
+  url_seq <- glue::glue("{base_url}&{gt_filter}&{date_filter}")
 
   # The baseballsavant API can take some time to respond (often over 1 minute). To speed up this
   # process, we submit all requests right away without waiting for a response. The API gets to work
@@ -118,6 +130,7 @@ download_baseballsavant <- function(start_date, end_date, cl = NULL, verbose = T
     dplyr::select(
       # pitch identifiers (for joining on pitch table from statsapi)
       game_id = game_pk,
+      game_type,
       year = game_year,
       event_index,
       pitch_number,

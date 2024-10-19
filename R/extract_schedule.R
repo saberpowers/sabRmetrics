@@ -5,25 +5,39 @@
 #' @param start_date first date included in the download
 #' @param end_date last date included in the download
 #' @param level character string, "mlb" (default) or "aaa"
+#' @param game_type character vector of game types to include. Options are "R" (regular sesason),
+#'   "F" (first-round playoff series, aka wild card), "D" (division series), "L" (league
+#'   championship series), "W" (world series), "S" (spring training), "A" (all-star game),
+#'   "E" (exhibition). Default is "R".
 #'
 #' @return a dataframe of games, with columns `game_id`, `year`, `date`, `team_id_away`, `team_id_home`, `venue_id`
 #' 
 #' @export
 #' 
-extract_schedule <- function(start_date, end_date, level = c("mlb", "aaa")) {
+extract_schedule <- function(start_date, end_date, level = c("mlb", "aaa"), game_type = "R") {
 
   if (lubridate::year(start_date) != lubridate::year(end_date)) {
     stop("Please choose `start_date` and `end_date` within the same calendar year")
   }
   level <- match.arg(level)
+  game_type <- sanitize_game_type(game_type)
 
   start <- format(as.Date(start_date), "%m/%d/%Y")
   end <- format(as.Date(end_date), "%m/%d/%Y")
   sport_id <- switch(level, mlb = 1, aaa = 11)
-  schedule_filter <- glue::glue("sportId={sport_id}&gameType=R&startDate={start}&endDate={end}")
+  schedule_filter <- glue::glue(
+    "sportId={sport_id}&gameType={paste(game_type, collapse = ',')}&startDate={start}&endDate={end}"
+  )
   endpoint <- glue::glue("http://statsapi.mlb.com:80/api/v1/schedule?{schedule_filter}")
 
   schedule_json <- jsonlite::fromJSON(endpoint, flatten = TRUE)
+  if(schedule_json$totalGames == 0) {
+    stop(
+      glue::glue(
+        "No games found between {start} and {end} of type {paste(game_type, collapse = ', ')}"
+      )
+    )
+  }
 
   schedule <- do.call(dplyr::bind_rows, args = schedule_json$dates$games)
 

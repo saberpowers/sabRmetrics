@@ -4,12 +4,23 @@
 \alias{download_baseballsavant}
 \title{Download MLB data from baseballsavant.mlb.com}
 \usage{
-download_baseballsavant(start_date, end_date, cl = NULL, verbose = TRUE)
+download_baseballsavant(
+  start_date,
+  end_date,
+  game_type = "R",
+  cl = NULL,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{start_date}{first date included in the download}
 
 \item{end_date}{last date included in the download}
+
+\item{game_type}{character vector of game types to include. Options are "R" (regular sesason),
+"F" (first-round playoff series, aka wild card), "D" (division series), "L" (league
+championship series), "W" (world series), "S" (spring training), "A" (all-star game),
+"E" (exhibition). Default is "R".}
 
 \item{cl}{optional cluster object for parallel computation, default is NULL (not parallel)}
 
