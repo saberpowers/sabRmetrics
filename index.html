@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">sabRmetrics</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -98,14 +98,22 @@
 <span><span class="co">#parallel::stopCluster(cluster)</span></span></code></pre></div>
 </div>
 <div class="section level2">
+<h2 id="finding-video-for-your-data">Finding video for your data<a class="anchor" aria-label="anchor" href="#finding-video-for-your-data"></a>
+</h2>
+<p>One benefit of using the MLB statsapi is that you can immediately pull up video for any pitch (or pickoff attempt) in your data using the <code>play_id</code> identifier.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">sabRmetrics</span><span class="fu">::</span><span class="fu"><a href="reference/get_video_url.html">get_video_url</a></span><span class="op">(</span><span class="st">"064e8918-e2b7-40f0-ac39-968932652154"</span><span class="op">)</span></span>
+<span><span class="co">#https://baseballsavant.mlb.com/sporty-videos?playId=064e8918-e2b7-40f0-ac39-968932652154</span></span></code></pre></div>
+</div>
+<div class="section level2">
 <h2 id="fitting-fundamental-models">Fitting fundamental models<a class="anchor" aria-label="anchor" href="#fitting-fundamental-models"></a>
 </h2>
 <p>Possibly the most fundamental model in sabermetrics is base-out run expectancy. The function below fits a Markov model assuming the state is specified by the bases occupied and the number of outs, using the empirical transition probabilities between states.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># You probably want at least one full season of data for this, maybe as many as three seasons</span></span>
 <span><span class="va">base_out_run_exp</span> <span class="op">&lt;-</span> <span class="fu">sabRmetrics</span><span class="fu">::</span><span class="fu"><a href="reference/estimate_base_out_run_exp.html">estimate_base_out_run_exp</a></span><span class="op">(</span>event <span class="op">=</span> <span class="va">data_statsapi</span><span class="op">$</span><span class="va">event</span><span class="op">)</span></span></code></pre></div>
 <p>A refinement on base-out run expectancy would be to include the ball-strike count in the state. Rather than expanding the Markov state to include count, the function below calculates the expected change in base-out run expectancy result from a plate appearance, conditional on the plate appearance passing through the specified count. We interpret this as the run value of the count, which allows us to measure the outcomes of individual pitches on the run scale.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># You probably want at least one full season of data for this, maybe as many as three seasons</span></span>
 <span><span class="va">count_value</span> <span class="op">&lt;-</span> <span class="fu">sabRmetrics</span><span class="fu">::</span><span class="fu"><a href="reference/estimate_count_value.html">estimate_count_value</a></span><span class="op">(</span></span>
 <span>  play <span class="op">=</span> <span class="va">data_datsapi</span><span class="op">$</span><span class="va">play</span>,</span>
@@ -113,7 +121,7 @@
 <span>  base_out_run_exp <span class="op">=</span> <span class="va">base_out_run_exp</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>Lastly, if you are working with pitch tracking data, a fundamentally useful step is to recreate the full estimated quadratic trajectory of the pitch. The vast majority of well-known pitch tracking metrics (e.g. horizontal/vertical break, plate location, approach angle) are derived from this estimated quadratic trajectory. The function <code>get_quadratic_coef</code> below calculates the coefficients required to reproduce the full trajectory from the data provided by either statsapi.mlb.com or baseballsavant.mlb.com. The function <code>get_trackman_metrics</code> below shows how to derive many well-known pitch tracking metrics from the quadratic coefficients.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pitch_statsapi</span> <span class="op">&lt;-</span> <span class="va">data_statsapi</span><span class="op">$</span><span class="va">pitch</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">sabRmetrics</span><span class="fu">::</span><span class="fu"><a href="reference/get_quadratic_coef.html">get_quadratic_coef</a></span><span class="op">(</span>source <span class="op">=</span> <span class="st">"statsapi"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">sabRmetrics</span><span class="fu">::</span><span class="fu"><a href="reference/get_trackman_metrics.html">get_trackman_metrics</a></span><span class="op">(</span><span class="op">)</span></span>

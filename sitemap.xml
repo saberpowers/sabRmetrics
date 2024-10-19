@@ -13,8 +13,10 @@
 <url><loc>https://saberpowers.github.io/sabRmetrics/reference/extract_schedule.html</loc></url>
 <url><loc>https://saberpowers.github.io/sabRmetrics/reference/get_quadratic_coef.html</loc></url>
 <url><loc>https://saberpowers.github.io/sabRmetrics/reference/get_trackman_metrics.html</loc></url>
+<url><loc>https://saberpowers.github.io/sabRmetrics/reference/get_video_url.html</loc></url>
 <url><loc>https://saberpowers.github.io/sabRmetrics/reference/index.html</loc></url>
 <url><loc>https://saberpowers.github.io/sabRmetrics/reference/replace_null.html</loc></url>
+<url><loc>https://saberpowers.github.io/sabRmetrics/reference/sanitize_game_type.html</loc></url>
 <url><loc>https://saberpowers.github.io/sabRmetrics/reference/track_base_out_by_event.html</loc></url>
 <url><loc>https://saberpowers.github.io/sabRmetrics/reference/track_base_out_by_play.html</loc></url>
 </urlset>
