@@ -54,14 +54,14 @@ data_baseballsavant <- sabRmetrics::download_baseballsavant(
 )
 
 # You can also run this function with parallel computation if you want to download more games
-cluster <- parallel::makeCluster(parallel::detectCores())
-data_baseballsavant <- sabRmetrics::download_baseballsavant(
-  start_date = "2024-01-01",
-  end_date = "2024-12-31",
-  game_type = c("R", "F", "D", "L", "W"),
-  cl = cluster
-)
-parallel::stopCluster(cluster)
+#cluster <- parallel::makeCluster(parallel::detectCores())
+#data_baseballsavant <- sabRmetrics::download_baseballsavant(
+#  start_date = "2024-01-01",
+#  end_date = "2024-12-31",
+#  game_type = c("R", "F", "D", "L", "W"),
+#  cl = cluster
+#)
+#parallel::stopCluster(cluster)
 ```
 
 ## Finding video for your data
