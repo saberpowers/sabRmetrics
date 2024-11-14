@@ -18,7 +18,7 @@
 #' 
 #' @examples
 #' \dontrun{
-#'    data_statsapi <- download_statsapi(
+#'    data_baseballsavant <- download_baseballsavant(
 #'      start_date = "2024-07-01",
 #'      end_date = "2024-07-01"
 #'    )
@@ -116,7 +116,7 @@ download_baseballsavant <- function(start_date,
 
   pbapply::pboptions(pbo)   # put progress bar options back where we found them
 
-  data <- do.call(dplyr::bind_rows, args = data_list) |>
+  data <- do.call(rbind, args = data_list) |>
     tibble::as_tibble() |>
     # re-define columns as needed to match statsapi
     dplyr::mutate(
@@ -124,12 +124,17 @@ download_baseballsavant <- function(start_date,
       half_inning = dplyr::case_when(
         inning_topbot == "Top" ~ "top",
         inning_topbot == "Bot" ~ "bottom"
-      )
+      ),
+      # Convert bat speed, swing length and arm angle to numeric without throwing warnings
+      bat_speed = convert_numeric(bat_speed),
+      swing_length = convert_numeric(swing_length),
+      arm_angle = convert_numeric(arm_angle)
     ) |>
     # re-order and re-name columns (but don't drop any)
     dplyr::select(
       # pitch identifiers (for joining on pitch table from statsapi)
       game_id = game_pk,
+      game_date,
       game_type,
       year = game_year,
       event_index,
@@ -140,12 +145,12 @@ download_baseballsavant <- function(start_date,
       batter_id = batter,
       bat_side = stand,
       batter_name = player_name,
-      pitcher_id = pitcher...8,       # unfortunate consequence of readr::read_csv's name_repair
+      pitcher_id = pitcher,
       pitch_hand = p_throws,
       pre_runner_1b_id = on_1b,
       pre_runner_2b_id = on_2b,
       pre_runner_3b_id = on_3b,
-      fielder_2_id = fielder_2...42,  # unfortunate consequence of readr::read_csv's name_repair
+      fielder_2_id = fielder_2,
       fielder_3_id = fielder_3,
       fielder_4_id = fielder_4,
       fielder_5_id = fielder_5,
@@ -163,6 +168,7 @@ download_baseballsavant <- function(start_date,
       of_fielding_alignment,
       # pitch tracking
       pitch_type,
+      arm_angle,
       ## here are the features you need to recreate the full quadratic trajectory of the pitch
       ax,
       ay,
