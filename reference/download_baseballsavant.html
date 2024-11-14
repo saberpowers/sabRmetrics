@@ -9,7 +9,7 @@ This includes swing tracking data not available through the MLB statsapi."></hea
 
     <a class="navbar-brand me-2" href="../index.html">sabRmetrics</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,7 +31,7 @@ This includes swing tracking data not available through the MLB statsapi."></hea
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Download MLB data from baseballsavant.mlb.com</h1>
-      <small class="dont-index">Source: <a href="https://github.com/saberpowers/sabRmetrics/blob/v1.0.3/R/download_baseballsavant.R" class="external-link"><code>R/download_baseballsavant.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/saberpowers/sabRmetrics/blob/main/R/download_baseballsavant.R" class="external-link"><code>R/download_baseballsavant.R</code></a></small>
       <div class="d-none name"><code>download_baseballsavant.Rd</code></div>
     </div>
 
@@ -86,7 +86,7 @@ championship series), "W" (world series), "S" (spring training), "A" (all-star g
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span>   <span class="va">data_statsapi</span> <span class="op">&lt;-</span> <span class="fu"><a href="download_statsapi.html">download_statsapi</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>   <span class="va">data_baseballsavant</span> <span class="op">&lt;-</span> <span class="fu">download_baseballsavant</span><span class="op">(</span></span></span>
 <span class="r-in"><span>     start_date <span class="op">=</span> <span class="st">"2024-07-01"</span>,</span></span>
 <span class="r-in"><span>     end_date <span class="op">=</span> <span class="st">"2024-07-01"</span></span></span>
 <span class="r-in"><span>   <span class="op">)</span></span></span>
