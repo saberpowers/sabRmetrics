@@ -35,7 +35,7 @@ This includes swing tracking data not available through the MLB statsapi.
 }
 \examples{
 \dontrun{
-   data_statsapi <- download_statsapi(
+   data_baseballsavant <- download_baseballsavant(
      start_date = "2024-07-01",
      end_date = "2024-07-01"
    )

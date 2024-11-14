@@ -1,4 +1,8 @@
 
+# sabRmetrics 1.0.4 (2024-11-13)
+
+- Extract new pitch-by-pitch arm angle data from baseballsavant
+
 # sabRmetrics 1.0.3 (2024-10-18)
 
 - Allow user to specify game type in data download functions

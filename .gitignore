@@ -1,2 +1,10 @@
+
+# pkgdown files
 .Rproj.user
 docs
+
+# test results
+sabRmetrics.Rcheck/*
+
+# old sources for built packages
+*.tar.gz
