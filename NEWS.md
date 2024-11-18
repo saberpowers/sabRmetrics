@@ -1,4 +1,8 @@
 
+# sabRmetrics 1.0.5 (2024-11-17)
+
+- Fix bug caused by new timeout response from baseballsavant
+
 # sabRmetrics 1.0.4 (2024-11-13)
 
 - Extract new pitch-by-pitch arm angle data from baseballsavant

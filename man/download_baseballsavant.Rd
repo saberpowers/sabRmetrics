@@ -33,6 +33,11 @@ a dataframe with one row per pitch and all available columns
 Loop over five days at a time to download data from the Statcast search API at Baseball Savant.
 This includes swing tracking data not available through the MLB statsapi.
 }
+\details{
+The baseballsavant API limits queries to 25,000 rows, so we run several queries if
+necessary. If any of the queries returns exactly 25,000 rows, this indicates that the user
+probably has not gotten all of the expected data, so this function throws a warning.
+}
 \examples{
 \dontrun{
    data_baseballsavant <- download_baseballsavant(
