@@ -3,6 +3,10 @@
 #' Loop over five days at a time to download data from the Statcast search API at Baseball Savant.
 #' This includes swing tracking data not available through the MLB statsapi.
 #' 
+#' @details The baseballsavant API limits queries to 25,000 rows, so we run several queries if
+#'   necessary. If any of the queries returns exactly 25,000 rows, this indicates that the user
+#'   probably has not gotten all of the expected data, so this function throws a warning.
+#' 
 #' @param start_date first date included in the download
 #' @param end_date last date included in the download
 #' @param game_type character vector of game types to include. Options are "R" (regular sesason),
@@ -69,7 +73,7 @@ download_baseballsavant <- function(start_date,
   )
 
   if (verbose) {
-    message(glue::glue("Trying to download {length(url_seq)} payload(s)..."))
+    message(glue::glue("Attempting to download {length(url_seq)} payload(s)..."))
   }
 
   # Initialize our list of data payloads, treating all of them as errors before successful download
@@ -94,11 +98,12 @@ download_baseballsavant <- function(start_date,
         )
         if ("try-error" %in% class(data)) {
           return("error")
-        } else if (nrow(data) == 25000) {
-          warning(
-            glue::glue("Exactly 25,000 rows returned for {url}")
-          )
-        } else if (nrow(data) == 0) { # this can happen when the date range includes no tracked games
+        } else if (ncol(data) == 1) {
+          # In Nov 2024, the API changed to return a 524 timeout message in the event of a timeout,
+          # which does not throw an error for httr::content. This condition handles this case.
+          return("error")
+        } else if (nrow(data) == 0) {
+          # This condition can happen when the date range includes no tracked games
           return(NULL)
         }
         return(data)
@@ -116,7 +121,23 @@ download_baseballsavant <- function(start_date,
 
   pbapply::pboptions(pbo)   # put progress bar options back where we found them
 
-  data <- do.call(rbind, args = data_list) |>
+  if (any(sapply(data_list, nrow) == 25000)) {
+    # The API limits the number of runs returned to 25,000 without throwing a warning,
+    # so it's possible to get a lot less data than expected for the date range specified.
+    sus_data <- sum(sapply(data_list, nrow) == 25000)
+    warning(
+      glue::glue("{sus_data} payload(s) returned exactly 25,000 rows. Data are likely missing.")
+    )
+  }
+
+  data_combined <- try(do.call(rbind, args = data_list), silent = TRUE)
+
+  if ("try-error" %in% class(data_combined)) {
+    warning("Something went wrong when combining payloads. Returning list of payloads.")
+    return(data_list)
+  }
+ 
+  data <- data_combined |>
     tibble::as_tibble() |>
     # re-define columns as needed to match statsapi
     dplyr::mutate(
