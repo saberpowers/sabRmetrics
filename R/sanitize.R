@@ -23,3 +23,30 @@ sanitize_game_type <- function(game_type) {
   )
   return(game_type)
 }
+
+#' Sanitize level
+#' 
+#' Check that a character vector of levels are all valid levels.
+#' 
+#' @param level character vector of levels. Valid levels are:
+#' \itemize{
+#'   \item{"MLB" for Major League Baseball}
+#'   \item{"AAA" for Triple-A}
+#'   \item{"AA" for Double-A}
+#'   \item{"A+" for High-A}
+#'   \item{"A" for Single-A}
+#'   \item{"SS" (defunct since 2020) for Short-Season A and Rookie Advanced}
+#'   \item{"CL" for Complex Leagues}
+#'   \item{"DSL" for Dominican Summer League}
+#' }
+#' 
+#' @return simply returns the input vector `level` but throws error if invalid levels are present
+#' 
+sanitize_level <- function(level) {
+  level <- match.arg(
+    arg = level,
+    choices = c("MLB", "AAA", "AA", "A+", "A", "SS", "CL", "DSL"),
+    several.ok = TRUE
+  )
+  return(level)
+}
