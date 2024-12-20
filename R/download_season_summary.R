@@ -41,9 +41,9 @@ download_season_summary <- function(year,
   season_summary_list <- pbapply::pblapply(
     X = args_list,
     FUN = function(args) {
-      api <- "https://bdfed.stitch.mlbinfra.com/bdfed/stats/player"
-      endpoint <- glue::glue("{api}?{paste0(names(args), '=', unlist(args), collapse = '&')}")
-      stats_player <- jsonlite::fromJSON(endpoint, flatten = TRUE)$stats
+      base_url <- "https://bdfed.stitch.mlbinfra.com/bdfed/stats/player"
+      url <- glue::glue("{base_url}?{paste0(names(args), '=', unlist(args), collapse = '&')}")
+      stats_player <- jsonlite::fromJSON(url, flatten = TRUE)$stats
       return(stats_player)
     },
     cl = cl
