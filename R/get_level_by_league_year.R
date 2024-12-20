@@ -1,5 +1,16 @@
-
-get_level_by_league_year <- function(year) {
+#' Get league level by year
+#' 
+#' The minor leagues have gone through significant restructuring a couple of times (1990 and 2020),
+#' so we can't statically map each league to a level. This function takes a vector of years and
+#' returns a mapping from league_id to level for each year.
+#' 
+#' @param year integer vector of years
+#' 
+#' @return a table of `level` indexed by `league_id` and `year`
+#' 
+#' @export
+#' 
+get_league_level_by_year <- function(year) {
 
   league_level <- tibble::tribble(
     ~league_id, ~league_name,               ~year_classified,  ~level,
@@ -35,12 +46,14 @@ get_level_by_league_year <- function(year) {
 
   league_for_level_year <- tibble::tibble(year = unique(year)) |>
     dplyr::cross_join(league_level) |>
+    # For each year, get the most up-to-date classification for each league
     dplyr::filter(year_classified <= year) |>
     dplyr::group_by(league_id, year) |>
     dplyr::arrange(-year_classified) |>
     dplyr::slice(1) |>
     dplyr::ungroup() |>
+    # NA level means that the league is no longer part of the affiliated minor leagues
     dplyr::filter(!is.na(level)) |>
-    dplyr::select(level, year, league_id) |>
-    dplyr::arrange(level, year, league_id)
+    dplyr::select(league_id, year, level) |>
+    dplyr::arrange(league_id, year, level)
 }
