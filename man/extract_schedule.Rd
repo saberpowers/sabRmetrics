@@ -7,7 +7,7 @@
 extract_schedule(
   start_date,
   end_date,
-  level = c("mlb", "aaa"),
+  level = c("MLB", "AAA", "AA", "A+", "A"),
   game_type = "R"
 )
 }
@@ -16,12 +16,28 @@ extract_schedule(
 
 \item{end_date}{last date included in the download}
 
-\item{level}{character string, "mlb" (default) or "aaa"}
+\item{level}{character vector of levels. Valid levels are:
+\itemize{
+\item{"MLB" for Major League Baseball}
+\item{"AAA" for Triple-A}
+\item{"AA" for Double-A}
+\item{"A+" for High-A}
+\item{"A" for Single-A}
+\item{"SS" (defunct since 2020) for Short-Season A and Rookie Advanced}
+\item{"CL" for Complex Leagues}
+\item{"DSL" for Dominican Summer League}
+}}
 
-\item{game_type}{character vector of game types to include. Options are "R" (regular sesason),
-"F" (first-round playoff series, aka wild card), "D" (division series), "L" (league
-championship series), "W" (world series), "S" (spring training), "A" (all-star game),
-"E" (exhibition). Default is "R".}
+\item{game_type}{character vector of game types. Valid game types are:
+\itemize{
+\item{"R" for Regular Season}
+\item{"F" for First-Round Playoff Series (aka wild card)}
+\item{"D" for Division Series (or minor-league quarter-finals)}
+\item{"L" for League Championship Series (or minor league semi-finals)}
+\item{"W" for World Series (or minor league championship)}
+\item{"A" for All-Star Game}
+\item{"E" for Exhibition}
+}}
 }
 \value{
 a dataframe of games, with columns \code{game_id}, \code{year}, \code{date}, \code{team_id_away}, \code{team_id_home}, \code{venue_id}
