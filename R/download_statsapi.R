@@ -30,7 +30,7 @@ download_statsapi <- function(start_date,
                               cl = NULL) {
 
   level <- sanitize_level(level)
-  game <- extract_schedule(start_date, end_date, level)
+  game <- download_schedule(start_date, end_date, level)
   year <- lubridate::year(start_date)
 
   data_list <- pbapply::pblapply(
