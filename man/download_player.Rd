@@ -5,7 +5,7 @@
 \title{Download player table}
 \usage{
 download_player(
-  year,
+  year = lubridate::year(Sys.Date()),
   level = c("MLB", "AAA", "AA", "A+", "A", "CL", "DSL"),
   cl = NULL
 )
