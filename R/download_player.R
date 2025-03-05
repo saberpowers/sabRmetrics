@@ -10,7 +10,7 @@
 #' 
 #' @export
 #' 
-download_player <- function(year,
+download_player <- function(year = lubridate::year(Sys.Date()),
                             level = c("MLB", "AAA", "AA", "A+", "A", "CL", "DSL"),
                             cl = NULL) {
 
