@@ -42,7 +42,7 @@ download_baseballsavant <- function(start_date,
   }
 
   # Trim start date and end date to range of actual games
-  schedule <- extract_schedule(start_date, end_date, level = "mlb", game_type = game_type)
+  schedule <- extract_schedule(start_date, end_date, level = "MLB", game_type = game_type)
   start_date <- min(schedule$date)
   end_date <- max(schedule$date)
 
