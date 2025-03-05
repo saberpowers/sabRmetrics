@@ -2,6 +2,7 @@
 
 export(download_baseballsavant)
 export(download_player)
+export(download_schedule)
 export(download_season_summary)
 export(download_statsapi)
 export(estimate_base_out_run_exp)

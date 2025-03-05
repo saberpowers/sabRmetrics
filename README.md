@@ -17,7 +17,7 @@ devtools::install_github(repo = "saberpowers/sabRmetrics")
 If all you want are game results, you can pull those very quickly.
 
 ```R
-game <- sabRmetrics::extract_schedule(start_date = "2024-01-01", end_date = "2024-12-31")
+game <- sabRmetrics::download_schedule(start_date = "2024-01-01", end_date = "2024-12-31")
 ```
 
 Most important data are available from statsapi.mlb.com. The function below returns four tables: game, event, pitch and play.

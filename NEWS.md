@@ -3,6 +3,7 @@
 
 - Add new `download_season_summary()` function
 - Add new `download_player()` function
+- Renamed `extract_schedule()` to `download_schedule()`
 
 # sabRmetrics 1.0.5 (2024-11-17)
 
