@@ -24,7 +24,7 @@ extract_schedule <- function(start_date,
 
   start <- format(as.Date(start_date), "%m/%d/%Y")
   end <- format(as.Date(end_date), "%m/%d/%Y")
-  sport_id <- switch(level, MLB = 1, AAA = 11, AA = 12, `A+` = 13, A = 14)
+  sport_id <- get_sport_id(level)
   schedule_filter <- glue::glue(
     "sportId={sport_id}&gameType={paste(game_type, collapse = ',')}&startDate={start}&endDate={end}"
   )
