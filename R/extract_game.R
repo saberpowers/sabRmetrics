@@ -73,6 +73,7 @@ extract_game <- function(game_id) {
     x0 = play_data$pitchData$coordinates$x0,
     z0 = play_data$pitchData$coordinates$z0,
     extension = replace_null(play_data$pitchData$extension),
+    spin_rate = play_data$pitchData$breaks$spinRate,
     strike_zone_top = play_data$pitchData$strikeZoneTop,
     strike_zone_bottom = play_data$pitchData$strikeZoneBottom,
     launch_speed = play_data$hitData$launchSpeed,
@@ -97,7 +98,7 @@ extract_game <- function(game_id) {
     dplyr::filter(type == "pitch") |>
     dplyr::select(play_id, game_id, event_index, play_index, pitch_number,
       outs, balls = pre_balls, strikes = pre_strikes,
-      description, pitch_type, ax, ay, az, vx0, vy0, vz0, x0, z0, extension,
+      description, pitch_type, ax, ay, az, vx0, vy0, vz0, x0, z0, extension, spin_rate,
       strike_zone_top, strike_zone_bottom, launch_speed, launch_angle, hit_coord_x, hit_coord_y
     )
  
