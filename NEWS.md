@@ -1,5 +1,5 @@
 
-# sabRmetrics 1.1.0 (in development)
+# sabRmetrics 1.1.0 (2025-07-07)
 
 - Add new `download_season_summary()` function
 - Add new `download_player()` function
