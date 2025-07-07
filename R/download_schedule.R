@@ -1,6 +1,6 @@
-#' Extract schedule
+#' Download schedule
 #' 
-#' Extract a table of MLB or AAA games within a specified date range (must be same calendar year).
+#' Download a table of MLB or AAA games within a specified date range (must be same calendar year).
 #' 
 #' @param start_date first date included in the download
 #' @param end_date last date included in the download
@@ -11,11 +11,10 @@
 #' 
 #' @export
 #' 
-extract_schedule <- function(start_date,
-                             end_date,
-                             level = c("MLB", "AAA", "AA", "A+", "A"),
-                             game_type = "R") {
-  warning("extract_schedule is deprecated. Please use download_schedule instead.")
+download_schedule <- function(start_date,
+                              end_date,
+                              level = c("MLB", "AAA", "AA", "A+", "A"),
+                              game_type = "R") {
 
   if (lubridate::year(start_date) != lubridate::year(end_date)) {
     stop("Please choose `start_date` and `end_date` within the same calendar year")

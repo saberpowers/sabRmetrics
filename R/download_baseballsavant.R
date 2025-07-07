@@ -42,21 +42,26 @@ download_baseballsavant <- function(start_date,
   }
 
   # Trim start date and end date to range of actual games
-  schedule <- extract_schedule(start_date, end_date, level = "mlb", game_type = game_type)
+  schedule <- download_schedule(start_date, end_date, level = "MLB", game_type = game_type)
   start_date <- min(schedule$date)
   end_date <- max(schedule$date)
 
   base_url <- "https://baseballsavant.mlb.com/statcast_search/csv?all=true&type=details"
+  gt_filter <- glue::glue("hfGT={paste0(game_type, '%7C', collapse = '')}")
 
   # Split the dates into 5-day chunks. The Savant API will return at most 25,000 rows. Assuming 300
   # pitches per game, a day with 15 games will have 4,500 pitches. We can safely download 5 days of
   # data, but more days would risk hitting the 25,000-row limit.
   days <- as.numeric(as.Date(end_date) - as.Date(start_date))
-  start_seq <- as.Date(start_date) + seq(from = 0, by = 5, to = days)
-  base_url <- "https://baseballsavant.mlb.com/statcast_search/csv?all=true&type=details"
-  gt_filter <- glue::glue("hfGT={paste0(game_type, '%7C', collapse = '')}")
-  date_filter <- glue::glue("game_date_gt={start_seq}&game_date_lt={pmin(start_seq + 4, end_date)}")
-  url_seq <- glue::glue("{base_url}&{gt_filter}&{date_filter}")
+  payload <- tibble::tibble(start = as.Date(start_date) + seq(from = 0, by = 5, to = days)) |>
+    dplyr::mutate(end = pmin(start + 4, end_date),) |>
+    dplyr::cross_join(dplyr::distinct(schedule, date)) |>
+    dplyr::filter(date >= start, date <= end) |>
+    dplyr::distinct(start, end) |>
+    dplyr::mutate(
+      date_filter = glue::glue("game_date_gt={start}&game_date_lt={pmin(start + 4, end)}"),
+      url = glue::glue("{base_url}&{gt_filter}&{date_filter}")
+    )
 
   # The baseballsavant API can take some time to respond (often over 1 minute). To speed up this
   # process, we submit all requests right away without waiting for a response. The API gets to work
@@ -65,7 +70,7 @@ download_baseballsavant <- function(start_date,
     message("Submitting initial API requests...")
   }
   initial_request <- pbapply::pblapply(
-    X = url_seq,
+    X = payload$url,
     FUN = function(url) {
       try(httr::GET(url, httr::timeout(1)), silent = TRUE)
     },
@@ -73,18 +78,18 @@ download_baseballsavant <- function(start_date,
   )
 
   if (verbose) {
-    message(glue::glue("Attempting to download {length(url_seq)} payload(s)..."))
+    message(glue::glue("Attempting to download {nrow(payload)} payload(s)..."))
   }
 
   # Initialize our list of data payloads, treating all of them as errors before successful download
-  data_list <- lapply(X = url_seq, FUN = function(x) return("error"))
-  names(data_list) <- url_seq
+  data_list <- lapply(X = payload$url, FUN = function(x) return("error"))
+  names(data_list) <- payload$url
   is_error <- sapply(data_list, FUN = function(x) identical(x, "error"))
 
   while(any(is_error)) {
 
-    data_list[url_seq[is_error]] <- pbapply::pblapply(
-      X = url_seq[is_error],
+    data_list[payload$url[is_error]] <- pbapply::pblapply(
+      X = payload$url[is_error],
       FUN = function(url) {
         data <- try(
           expr = httr::content(
@@ -121,7 +126,18 @@ download_baseballsavant <- function(start_date,
 
   pbapply::pboptions(pbo)   # put progress bar options back where we found them
 
-  if (any(sapply(data_list, nrow) == 25000)) {
+  rows_per_payload <- sapply(
+    X = data_list,
+    FUN = function(x) {
+      if (is.null(x)) {
+        return(0)
+      } else {
+        return(nrow(x))
+      }
+    }
+  )
+
+  if (any(rows_per_payload == 25000)) {
     # The API limits the number of runs returned to 25,000 without throwing a warning,
     # so it's possible to get a lot less data than expected for the date range specified.
     sus_data <- sum(sapply(data_list, nrow) == 25000)

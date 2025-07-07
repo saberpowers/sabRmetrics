@@ -1,4 +1,13 @@
 
+# sabRmetrics 1.1.0 (2025-07-07)
+
+- Add new `download_season_summary()` function
+- Add new `download_player()` function
+- Renamed `extract_schedule()` to `download_schedule()`
+- Include spin rate in `download_statsapi()`
+- Improve handling of schedule gaps in `download_baseballsavant()`
+- Added tests for all download functions
+
 # sabRmetrics 1.0.5 (2024-11-17)
 
 - Fix bug caused by new timeout response from baseballsavant

@@ -4,7 +4,7 @@
 #' 
 #' @param start_date first date included in the download
 #' @param end_date last date included in the download
-#' @param level character string, "mlb" (default) or "aaa"
+#' @inheritParams sanitize_level
 #' @param game_type character vector of game types to include. Options are "R" (regular sesason),
 #'   "F" (first-round playoff series, aka wild card), "D" (division series), "L" (league
 #'   championship series), "W" (world series), "S" (spring training), "A" (all-star game),
@@ -25,11 +25,12 @@
 #' 
 download_statsapi <- function(start_date,
                               end_date,
-                              level = c("mlb", "aaa"),
+                              level = "MLB",
                               game_type = "R",
                               cl = NULL) {
 
-  game <- extract_schedule(start_date, end_date, level)
+  level <- sanitize_level(level)
+  game <- download_schedule(start_date, end_date, level)
   year <- lubridate::year(start_date)
 
   data_list <- pbapply::pblapply(

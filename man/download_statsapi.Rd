@@ -7,7 +7,7 @@
 download_statsapi(
   start_date,
   end_date,
-  level = c("mlb", "aaa"),
+  level = "MLB",
   game_type = "R",
   cl = NULL
 )
@@ -17,7 +17,17 @@ download_statsapi(
 
 \item{end_date}{last date included in the download}
 
-\item{level}{character string, "mlb" (default) or "aaa"}
+\item{level}{character vector of levels. Valid levels are:
+\itemize{
+\item{"MLB" for Major League Baseball}
+\item{"AAA" for Triple-A}
+\item{"AA" for Double-A}
+\item{"A+" for High-A}
+\item{"A" for Single-A}
+\item{"SS" (defunct since 2020) for Short-Season A and Rookie Advanced}
+\item{"CL" for Complex Leagues}
+\item{"DSL" for Dominican Summer League}
+}}
 
 \item{game_type}{character vector of game types to include. Options are "R" (regular sesason),
 "F" (first-round playoff series, aka wild card), "D" (division series), "L" (league

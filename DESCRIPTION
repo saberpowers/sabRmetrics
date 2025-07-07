@@ -1,6 +1,6 @@
 Package: sabRmetrics
 Title: Query {statsapi,baseballsavant}.mlb.com and fit fundamental sabermetric models
-Version: 1.0.5
+Version: 1.1.0
 Authors@R: 
     person("Scott", "Powers", email = "scott.powers@rice.edu", role = c("aut", "cre"))
 Description: The highest-fidelity raw MLB data are available from statsapi.mlb.com and baseballsavant.mlb.com, and some minor league data are available from these APIs as well. This package provides functions to query those APIs, returning the data in a collection of well-factored tables (as opposed to returning a single table). Additionally, this package offers functions to estimate base-out run expectancy; estimate count values; and recover the full estimated quadratic trajectory of a pitch from pitch tracking data.
@@ -8,6 +8,8 @@ License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
+Depends:
+  R (>= 4.1.0)
 Imports:
   dplyr,
   glue,
