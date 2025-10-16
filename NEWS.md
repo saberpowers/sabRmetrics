@@ -1,12 +1,16 @@
 
+# sabRmetrics 1.2.0 (in development)
+
+- Round strike zone height from statsapi to 2 decimal places
+
 # sabRmetrics 1.1.0 (2025-07-07)
 
 - Add new `download_season_summary()` function
 - Add new `download_player()` function
-- Renamed `extract_schedule()` to `download_schedule()`
+- Rename `extract_schedule()` to `download_schedule()`
 - Include spin rate in `download_statsapi()`
 - Improve handling of schedule gaps in `download_baseballsavant()`
-- Added tests for all download functions
+- Add tests for all download functions
 
 # sabRmetrics 1.0.5 (2024-11-17)
 
