@@ -8,7 +8,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/saberpowers/sabRmetrics/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/saberpowers/sabRmetrics/blob/v1.2.0/DESCRIPTION)
 
 Powers S (2026). *sabRmetrics: Query statsapi,baseballsavant.mlb.com and
 fit fundamental sabermetric models*. R package version 1.2.0,
