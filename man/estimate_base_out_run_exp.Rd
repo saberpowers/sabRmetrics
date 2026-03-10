@@ -16,3 +16,11 @@ a dataframe of \code{exp_runs} indexed by \code{runner_1b}, \code{runner_2b}, \c
 Model base-out transitions as a Markov chain and find the probability of each terminal state
 (including runs scored) from any initial state.
 }
+\examples{
+data_statsapi <- download_statsapi(
+  start_date = "2024-07-01",
+  end_date = "2024-07-01"
+)
+base_out_run_exp <- estimate_base_out_run_exp(event = data_statsapi$event)
+
+}

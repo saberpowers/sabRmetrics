@@ -39,11 +39,22 @@ necessary. If any of the queries returns exactly 25,000 rows, this indicates tha
 probably has not gotten all of the expected data, so this function throws a warning.
 }
 \examples{
+# Typically takes about 30 seconds for the first query of a single day but drastically speeds
+# up for subsequent queries of the same game because the API caches the results of the query
+data_baseballsavant <- download_baseballsavant(
+  start_date = "2024-07-01",
+  end_date = "2024-07-01"
+)
+
+# You can also run this function with parallel computation if you want to download more games
 \dontrun{
-   data_baseballsavant <- download_baseballsavant(
-     start_date = "2024-07-01",
-     end_date = "2024-07-01"
-   )
+  cluster <- parallel::makeCluster(parallel::detectCores())
+  data_baseballsavant <- download_baseballsavant(
+    start_date = "2024-01-01",
+    end_date = "2024-12-31",
+    cl = cluster
+  )
+  parallel::stopCluster(cluster)
 }
 
 }

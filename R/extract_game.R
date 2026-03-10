@@ -74,8 +74,11 @@ extract_game <- function(game_id) {
     z0 = play_data$pitchData$coordinates$z0,
     extension = replace_null(play_data$pitchData$extension),
     spin_rate = play_data$pitchData$breaks$spinRate,
-    strike_zone_top = play_data$pitchData$strikeZoneTop,
-    strike_zone_bottom = play_data$pitchData$strikeZoneBottom,
+    # Strike zone height is generally rounded to two digits when the batter swings but not when the
+    # batter takes a pitch. We round all strike zone heights to two digits to save future analysts.
+    # Bug details: https://github.com/saberpowers/predictive-pitch-score/pull/36
+    strike_zone_top = round(play_data$pitchData$strikeZoneTop, 2),
+    strike_zone_bottom = round(play_data$pitchData$strikeZoneBottom, 2),
     launch_speed = play_data$hitData$launchSpeed,
     launch_angle = play_data$hitData$launchAngle,
     hit_coord_x = play_data$hitData$coordinates$coordX,

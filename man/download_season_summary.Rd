@@ -41,3 +41,8 @@ This function this the https://bdfed.stitch.mlbinfra.com/bdfed/stats/player api 
 player season summary stats. Coverage goes back to 1901 for MLB, 1990 for domestic minor leagues
 and 2016 for the Dominican Summer League. Year and level can be provided as vector arugments.
 }
+\examples{
+mlb_hitting_2025 <- download_season_summary(year = 2025, level = "MLB", position = "hitting")
+aaa_pitching_2025 <- download_season_summary(year = 2025, level = "AAA", position = "pitching")
+
+}

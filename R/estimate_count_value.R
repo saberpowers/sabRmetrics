@@ -8,10 +8,21 @@
 #' @param base_out_run_exp dataframe of base-out run expectancy from
 #'   \code{\link{estimate_base_out_run_exp}}
 #' 
-#' @return a dataframe of `count_value` indexed by `balls` and `strikes`
+#' @returns a dataframe of `count_value` indexed by `balls` and `strikes`
+#' 
+#' @examples
+#' data_statsapi <- download_statsapi(
+#'   start_date = "2024-07-01",
+#'   end_date = "2024-07-01"
+#' )
+#' base_out_run_exp <- estimate_base_out_run_exp(event = data_statsapi$event)
+#' count_value <- estimate_count_value(
+#'   play = data_statsapi$play,
+#'   event = data_statsapi$event,
+#'   base_out_run_exp = base_out_run_exp
+#' )
 #' 
 #' @export
-#' 
 estimate_count_value <- function(play, event, base_out_run_exp) {
 
   data <- play |>

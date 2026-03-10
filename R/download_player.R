@@ -6,10 +6,13 @@
 #' @inheritParams sanitize_level
 #' @param cl optional cluster object for parallel computation, default is NULL (not parallel)
 #' 
-#' @return a table of player data, indexed by player_id
+#' @returns a table of player data, indexed by player_id
+#' 
+#' @examples
+#' player_mlb_2025 <- download_player(year = 2025, level = "MLB")
+#' player_aaa_2024 <- download_player(year = 2024, level = "AAA")
 #' 
 #' @export
-#' 
 download_player <- function(year = lubridate::year(Sys.Date()),
                             level = c("MLB", "AAA", "AA", "A+", "A", "CL", "DSL"),
                             cl = NULL) {

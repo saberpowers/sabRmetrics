@@ -21,3 +21,16 @@ a dataframe of \code{count_value} indexed by \code{balls} and \code{strikes}
 Compute the average change in base-out run expectancy for all plate appearances that run
 through each count.
 }
+\examples{
+data_statsapi <- download_statsapi(
+  start_date = "2024-07-01",
+  end_date = "2024-07-01"
+)
+base_out_run_exp <- estimate_base_out_run_exp(event = data_statsapi$event)
+count_value <- estimate_count_value(
+  play = data_statsapi$play,
+  event = data_statsapi$event,
+  base_out_run_exp = base_out_run_exp
+)
+
+}
