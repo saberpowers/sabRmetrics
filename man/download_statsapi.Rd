@@ -43,11 +43,21 @@ a list of four dataframes: \code{event}, \code{pitch}, \code{play} and game
 Download data from all \emph{regular season} MLB games within a specified date range.
 }
 \examples{
+# Typically takes about 5 seconds for a single day
+data_statsapi <- download_statsapi(
+  start_date = "2024-07-01",
+  end_date = "2024-07-01"
+)
+
+# You can also run this function with parallel computation if you want to download more games
 \dontrun{
-   data_statsapi <- download_statsapi(
-     start_date = "2024-07-01",
-     end_date = "2024-07-01"
-   )
+  cluster <- parallel::makeCluster(parallel::detectCores())
+  data_statsapi <- download_statsapi(
+    start_date = "2024-01-01",
+    end_date = "2024-12-31",
+    cl = cluster
+  )
+  parallel::stopCluster(cluster)
 }
 
 }

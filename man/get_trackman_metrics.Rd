@@ -18,3 +18,21 @@ plate_y, plate_time, gravity, plate_x_line, plate_z_line, plate_z_gravity, t0
 \description{
 Use the quadratic coefficients describing the path of the pitch to calculate TrackMan metrics
 }
+\examples{
+data_statsapi <- download_statsapi(
+  start_date = "2024-07-01",
+  end_date = "2024-07-01"
+)
+pitch_statsapi <- data_statsapi$pitch |>
+  get_quadratic_coef(source = "statsapi") |>
+  get_trackman_metrics()
+
+data_baseballsavant <- sabRmetrics::download_baseballsavant(
+  start_date = "2024-07-01",
+  end_date = "2024-07-01"
+)
+pitch_baseballsavant <- data_baseballsavant |>
+  get_quadratic_coef(source = "baseballsavant") |>
+  get_trackman_metrics()
+
+}

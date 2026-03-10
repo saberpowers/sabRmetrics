@@ -11,18 +11,27 @@
 #'   "E" (exhibition). Default is "R".
 #' @param cl optional cluster object for parallel computation, default is NULL (not parallel)
 #' 
-#' @return a list of four dataframes: `event`, `pitch`, `play` and game
-#' 
-#' @export
+#' @returns a list of four dataframes: `event`, `pitch`, `play` and game
 #' 
 #' @examples
+#' # Typically takes about 5 seconds for a single day
+#' data_statsapi <- download_statsapi(
+#'   start_date = "2024-07-01",
+#'   end_date = "2024-07-01"
+#' )
+#' 
+#' # You can also run this function with parallel computation if you want to download more games
 #' \dontrun{
-#'    data_statsapi <- download_statsapi(
-#'      start_date = "2024-07-01",
-#'      end_date = "2024-07-01"
-#'    )
+#'   cluster <- parallel::makeCluster(parallel::detectCores())
+#'   data_statsapi <- download_statsapi(
+#'     start_date = "2024-01-01",
+#'     end_date = "2024-12-31",
+#'     cl = cluster
+#'   )
+#'   parallel::stopCluster(cluster)
 #' }
 #' 
+#' @export
 download_statsapi <- function(start_date,
                               end_date,
                               level = "MLB",

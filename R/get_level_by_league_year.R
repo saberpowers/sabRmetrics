@@ -6,10 +6,13 @@
 #' 
 #' @param year integer vector of years
 #' 
-#' @return a table of `level` indexed by `league_id` and `year`
+#' @returns a table of `level` indexed by `league_id` and `year`
+#' 
+#' @examples
+#' league_level_2025 <- get_league_level_by_year(2025)
+#' league_level_2017 <- get_league_level_by_year(2017)
 #' 
 #' @export
-#' 
 get_league_level_by_year <- function(year) {
 
   league_level <- tibble::tribble(

@@ -5,10 +5,16 @@
 #' 
 #' @param event dataframe of event data from \code{\link{download_statsapi}}
 #' 
-#' @return a dataframe of `exp_runs` indexed by `runner_1b`, `runner_2b`, `runner_3b` and `out`
+#' @returns a dataframe of `exp_runs` indexed by `runner_1b`, `runner_2b`, `runner_3b` and `out`
+#' 
+#' @examples
+#' data_statsapi <- download_statsapi(
+#'   start_date = "2024-07-01",
+#'   end_date = "2024-07-01"
+#' )
+#' base_out_run_exp <- estimate_base_out_run_exp(event = data_statsapi$event)
 #' 
 #' @export
-#' 
 estimate_base_out_run_exp <- function(event) {
   
   base_out_transition <- event |>

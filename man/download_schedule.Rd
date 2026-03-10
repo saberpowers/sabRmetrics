@@ -45,3 +45,16 @@ a dataframe of games, with columns \code{game_id}, \code{year}, \code{date}, \co
 \description{
 Download a table of MLB or AAA games within a specified date range (must be same calendar year).
 }
+\examples{
+schedule_mlb_2025 <- download_schedule(
+  start_date = "2025-01-01",
+  end_date = "2025-12-31",
+  level = "MLB"
+)
+schedule_aaa_2024 <- download_schedule(
+  start_date = "2024-01-01",
+  end_date = "2024-12-31",
+  level = "AAA"
+)
+
+}

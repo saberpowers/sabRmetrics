@@ -7,10 +7,21 @@
 #' @inheritParams sanitize_level
 #' @inheritParams sanitize_game_type
 #'
-#' @return a dataframe of games, with columns `game_id`, `year`, `date`, `team_id_away`, `team_id_home`, `venue_id`
+#' @returns a dataframe of games, with columns `game_id`, `year`, `date`, `team_id_away`, `team_id_home`, `venue_id`
+#' 
+#' @examples
+#' schedule_mlb_2025 <- download_schedule(
+#'   start_date = "2025-01-01",
+#'   end_date = "2025-12-31",
+#'   level = "MLB"
+#' )
+#' schedule_aaa_2024 <- download_schedule(
+#'   start_date = "2024-01-01",
+#'   end_date = "2024-12-31",
+#'   level = "AAA"
+#' )
 #' 
 #' @export
-#' 
 download_schedule <- function(start_date,
                               end_date,
                               level = c("MLB", "AAA", "AA", "A+", "A"),
