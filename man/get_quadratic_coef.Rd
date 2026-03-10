@@ -24,3 +24,19 @@ y(t) = ay * t^2 / 2 + by * t + cy
 z(t) = az * t^2 / 2 + bz * t + cz
 We start with velocity and location of ball when y = 50 and use extension to derive coefficients
 }
+\examples{
+data_statsapi <- download_statsapi(
+  start_date = "2024-07-01",
+  end_date = "2024-07-01"
+)
+pitch_statsapi <- data_statsapi$pitch |>
+  get_quadratic_coef(source = "statsapi")
+
+data_baseballsavant <- sabRmetrics::download_baseballsavant(
+  start_date = "2024-07-01",
+  end_date = "2024-07-01"
+)
+pitch_baseballsavant <- data_baseballsavant |>
+  get_quadratic_coef(source = "baseballsavant")
+
+}

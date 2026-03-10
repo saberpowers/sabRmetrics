@@ -3,6 +3,8 @@
 
 - Round strike zone height from statsapi to 2 decimal places
 - Fix handling of non-regular-season games in `download_statsapi()` (#28)
+- Add Roxygen examples for all exported functions
+- Delete deprecated `extract_schedule()` function
 
 # sabRmetrics 1.1.0 (2025-07-07)
 

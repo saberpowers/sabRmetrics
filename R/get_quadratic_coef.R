@@ -12,10 +12,24 @@
 #'   `vz0`, `release_pos_x`, `release_pos_y`, and `release_pos_z` are required.
 #' @param source character string, either "statsapi" (default) or "baseballsavant"
 #' 
-#' @return the input dataframe the following columns added: bx, by, bz, cx, cy, cz, y0, t0
+#' @returns the input dataframe the following columns added: bx, by, bz, cx, cy, cz, y0, t0
+#' 
+#' @examples
+#' data_statsapi <- download_statsapi(
+#'   start_date = "2024-07-01",
+#'   end_date = "2024-07-01"
+#' )
+#' pitch_statsapi <- data_statsapi$pitch |>
+#'   get_quadratic_coef(source = "statsapi")
+#' 
+#' data_baseballsavant <- sabRmetrics::download_baseballsavant(
+#'   start_date = "2024-07-01",
+#'   end_date = "2024-07-01"
+#' )
+#' pitch_baseballsavant <- data_baseballsavant |>
+#'   get_quadratic_coef(source = "baseballsavant")
 #' 
 #' @export
-#' 
 get_quadratic_coef <- function(data, source = c("statsapi", "baseballsavant")) {
 
   source <- match.arg(source)

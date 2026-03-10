@@ -4,13 +4,12 @@
 #' 
 #' @param play_id character vector of play identifier from statsapi
 #' 
-#' @return character vector of URLs
+#' @returns character vector of URLs
 #' 
 #' @examples
 #' get_video_url("064e8918-e2b7-40f0-ac39-968932652154")
 #' 
 #' @export
-#' 
 get_video_url <- function(play_id) {
   glue::glue("https://baseballsavant.mlb.com/sporty-videos?playId={play_id}")
 }

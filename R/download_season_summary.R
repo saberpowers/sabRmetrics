@@ -10,10 +10,13 @@
 #' @param position "hitting" or "pitching" (cannot be both)
 #' @param cl optional cluster object for parallel computation, default is NULL (not parallel)
 #' 
-#' @return a table of season summary statistics indexed by year, level, league_id and player_id
+#' @returns a table of season summary statistics indexed by year, level, league_id and player_id
+#' 
+#' @examples
+#' mlb_hitting_2025 <- download_season_summary(year = 2025, level = "MLB", position = "hitting")
+#' aaa_pitching_2025 <- download_season_summary(year = 2025, level = "AAA", position = "pitching")
 #' 
 #' @export
-#' 
 download_season_summary <- function(year,
                                     level = "MLB",
                                     position = c("hitting", "pitching"),

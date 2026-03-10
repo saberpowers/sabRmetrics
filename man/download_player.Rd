@@ -33,3 +33,8 @@ a table of player data, indexed by player_id
 \description{
 Download player information for a vector of years and a vector of levels.
 }
+\examples{
+player_mlb_2025 <- download_player(year = 2025, level = "MLB")
+player_aaa_2024 <- download_player(year = 2024, level = "AAA")
+
+}

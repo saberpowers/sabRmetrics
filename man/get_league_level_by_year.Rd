@@ -17,3 +17,8 @@ The minor leagues have gone through significant restructuring a couple of times 
 so we can't statically map each league to a level. This function takes a vector of years and
 returns a mapping from league_id to level for each year.
 }
+\examples{
+league_level_2025 <- get_league_level_by_year(2025)
+league_level_2017 <- get_league_level_by_year(2017)
+
+}

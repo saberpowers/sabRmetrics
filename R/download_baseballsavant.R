@@ -16,18 +16,28 @@
 #' @param cl optional cluster object for parallel computation, default is NULL (not parallel)
 #' @param verbose logical, should progress be printed to console?
 #' 
-#' @return a dataframe with one row per pitch and all available columns
-#' 
-#' @export
+#' @returns a dataframe with one row per pitch and all available columns
 #' 
 #' @examples
+#' # Typically takes about 30 seconds for the first query of a single day but drastically speeds
+#' # up for subsequent queries of the same game because the API caches the results of the query
+#' data_baseballsavant <- download_baseballsavant(
+#'   start_date = "2024-07-01",
+#'   end_date = "2024-07-01"
+#' )
+#' 
+#' # You can also run this function with parallel computation if you want to download more games
 #' \dontrun{
-#'    data_baseballsavant <- download_baseballsavant(
-#'      start_date = "2024-07-01",
-#'      end_date = "2024-07-01"
-#'    )
+#'   cluster <- parallel::makeCluster(parallel::detectCores())
+#'   data_baseballsavant <- download_baseballsavant(
+#'     start_date = "2024-01-01",
+#'     end_date = "2024-12-31",
+#'     cl = cluster
+#'   )
+#'   parallel::stopCluster(cluster)
 #' }
 #' 
+#' @export
 download_baseballsavant <- function(start_date,
                                     end_date,
                                     game_type = "R",
