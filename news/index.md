@@ -1,0 +1,53 @@
+# Changelog
+
+## sabRmetrics 1.2.0 (2026-03-09)
+
+- Round strike zone height from statsapi to 2 decimal places
+- Fix handling of non-regular-season games in
+  [`download_statsapi()`](https://saberpowers.github.io/sabRmetrics/reference/download_statsapi.md)
+  ([\#28](https://github.com/saberpowers/sabRmetrics/issues/28))
+- Add Roxygen examples for all exported functions
+- Delete deprecated `extract_schedule()` function
+
+## sabRmetrics 1.1.0 (2025-07-07)
+
+- Add new
+  [`download_season_summary()`](https://saberpowers.github.io/sabRmetrics/reference/download_season_summary.md)
+  function
+- Add new
+  [`download_player()`](https://saberpowers.github.io/sabRmetrics/reference/download_player.md)
+  function
+- Rename `extract_schedule()` to
+  [`download_schedule()`](https://saberpowers.github.io/sabRmetrics/reference/download_schedule.md)
+- Include spin rate in
+  [`download_statsapi()`](https://saberpowers.github.io/sabRmetrics/reference/download_statsapi.md)
+- Improve handling of schedule gaps in
+  [`download_baseballsavant()`](https://saberpowers.github.io/sabRmetrics/reference/download_baseballsavant.md)
+- Add tests for all download functions
+
+## sabRmetrics 1.0.5 (2024-11-17)
+
+- Fix bug caused by new timeout response from baseballsavant
+
+## sabRmetrics 1.0.4 (2024-11-13)
+
+- Extract new pitch-by-pitch arm angle data from baseballsavant
+
+## sabRmetrics 1.0.3 (2024-10-18)
+
+- Allow user to specify game type in data download functions
+- Add new
+  [`get_video_url()`](https://saberpowers.github.io/sabRmetrics/reference/get_video_url.md)
+  function
+
+## sabRmetrics 1.0.2 (2024-09-19)
+
+- Add team names and scores to `extract_schedule()`
+
+## sabRmetrics 1.0.1 (2024-07-09)
+
+- Make the baseballsavant download more robust
+
+## sabRmetrics 1.0.0 (2024-07-07)
+
+- Initial release!

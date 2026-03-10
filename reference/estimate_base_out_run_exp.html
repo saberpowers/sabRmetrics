@@ -9,7 +9,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">sabRmetrics</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,7 +31,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Estimate base-out run expectancy</h1>
-      <small class="dont-index">Source: <a href="https://github.com/saberpowers/sabRmetrics/blob/v1.1.0/R/estimate_base_out_run_exp.R" class="external-link"><code>R/estimate_base_out_run_exp.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/saberpowers/sabRmetrics/blob/main/R/estimate_base_out_run_exp.R" class="external-link"><code>R/estimate_base_out_run_exp.R</code></a></small>
       <div class="d-none name"><code>estimate_base_out_run_exp.Rd</code></div>
     </div>
 
@@ -58,6 +58,16 @@
     <p>a dataframe of <code>exp_runs</code> indexed by <code>runner_1b</code>, <code>runner_2b</code>, <code>runner_3b</code> and <code>out</code></p>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">data_statsapi</span> <span class="op">&lt;-</span> <span class="fu"><a href="download_statsapi.html">download_statsapi</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  start_date <span class="op">=</span> <span class="st">"2024-07-01"</span>,</span></span>
+<span class="r-in"><span>  end_date <span class="op">=</span> <span class="st">"2024-07-01"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">base_out_run_exp</span> <span class="op">&lt;-</span> <span class="fu">estimate_base_out_run_exp</span><span class="op">(</span>event <span class="op">=</span> <span class="va">data_statsapi</span><span class="op">$</span><span class="va">event</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 
@@ -67,7 +77,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>
