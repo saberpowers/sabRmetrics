@@ -2,6 +2,7 @@
 # sabRmetrics 1.2.0 (in development)
 
 - Round strike zone height from statsapi to 2 decimal places
+- Fix handling of non-regular-season games in `download_statsapi()` (#28)
 
 # sabRmetrics 1.1.0 (2025-07-07)
 
