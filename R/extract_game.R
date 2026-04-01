@@ -63,6 +63,11 @@ extract_game <- function(game_id) {
     from_catcher = replace_null(play_data$details$fromCatcher),
     runner_going = replace_null(play_data$details$runnerGoing),
     is_out = play_data$details$isOut,
+    is_reviewed = play_data$details$hasReview,
+    is_overturned = replace_null(play_data$reviewDetails$isOverturned),
+    review_type = replace_null(play_data$reviewDetails$reviewType),
+    challenge_team_id = replace_null(play_data$reviewDetails$challengeTeamId),
+    challenge_player_id = replace_null(play_data$reviewDetails$player$id),
     pitch_type = play_data$details$type$code,
     ax = play_data$pitchData$coordinates$aX,
     ay = play_data$pitchData$coordinates$aY,
@@ -94,6 +99,14 @@ extract_game <- function(game_id) {
     pre_balls = dplyr::coalesce(dplyr::lag(post_balls, 1), 0),
     pre_strikes = dplyr::coalesce(dplyr::lag(post_strikes, 1), 0),
     pre_disengagements = dplyr::coalesce(dplyr::lag(post_disengagements, 1), 0),
+    # I haven't figured out the pattern yet, but as far as I can tell, ...
+    #   - "MA" corresponds to challenging a tag play
+    #   - "MJ" corresponds to ABS challenge
+    #   - "NH" corresponds to challenging a fair/foul call
+    abs_challenged = is_reviewed & (review_type == "MJ"),
+    abs_overturned = ifelse(abs_challenged, is_overturned, NA),
+    abs_team_id = ifelse(abs_challenged, challenge_team_id, NA),
+    abs_player_id = ifelse(abs_challenged, challenge_player_id, NA)
   ) |>
   dplyr::ungroup()
 
@@ -101,6 +114,7 @@ extract_game <- function(game_id) {
     dplyr::filter(type == "pitch") |>
     dplyr::select(play_id, game_id, event_index, play_index, pitch_number,
       outs, balls = pre_balls, strikes = pre_strikes,
+      abs_challenged, abs_overturned, abs_team_id, abs_player_id,
       description, pitch_type, ax, ay, az, vx0, vy0, vz0, x0, z0, extension, spin_rate,
       strike_zone_top, strike_zone_bottom, launch_speed, launch_angle, hit_coord_x, hit_coord_y
     )
@@ -177,11 +191,11 @@ extract_game <- function(game_id) {
     ) |>
     dplyr::select(play_id, game_id, event_index, play_index, pitch_number,
       pre_runner_1b_id, pre_runner_2b_id, pre_runner_3b_id, pre_outs, pre_balls, pre_strikes,
-      pre_disengagements,
-      runs_on_play,
+      pre_disengagements, runs_on_play,
       post_runner_1b_id, post_runner_2b_id, post_runner_3b_id, post_outs, post_balls, post_strikes,
       post_disengagements, type, runner_going, from_catcher,
-      is_pickoff, is_pickoff_error, is_stolen_base, is_caught_stealing, is_defensive_indiff
+      is_pickoff, is_pickoff_error, is_stolen_base, is_caught_stealing, is_defensive_indiff,
+      is_reviewed, is_overturned, review_type, challenge_team_id, challenge_player_id
     )
 
 

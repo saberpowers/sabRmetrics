@@ -1,4 +1,8 @@
 
+# sabRmetrics 1.2.1 (2026-03-31)
+
+- Extract ABS challenge data from MLB statsapi
+
 # sabRmetrics 1.2.0 (2026-03-09)
 
 - Round strike zone height from statsapi to 2 decimal places
