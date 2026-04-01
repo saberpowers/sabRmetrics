@@ -191,6 +191,7 @@ extract_game <- function(game_id) {
     ) |>
     dplyr::select(play_id, game_id, event_index, play_index, pitch_number,
       pre_runner_1b_id, pre_runner_2b_id, pre_runner_3b_id, pre_outs, pre_balls, pre_strikes,
+      pre_disengagements, runs_on_play,
       post_runner_1b_id, post_runner_2b_id, post_runner_3b_id, post_outs, post_balls, post_strikes,
       post_disengagements, type, runner_going, from_catcher,
       is_pickoff, is_pickoff_error, is_stolen_base, is_caught_stealing, is_defensive_indiff,
