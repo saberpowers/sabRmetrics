@@ -1,6 +1,8 @@
 
 # sabRmetrics 1.3.0 (in development)
 
+- Add new `download_40man_roster()` function
+
 # sabRmetrics 1.2.1 (2026-03-31)
 
 - Extract ABS challenge data from MLB statsapi
