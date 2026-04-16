@@ -4,8 +4,6 @@
 
 - [`convert_numeric()`](https://saberpowers.github.io/sabRmetrics/reference/convert_numeric.md)
   : Convert string with NA values to numeric
-- [`download_40man_roster()`](https://saberpowers.github.io/sabRmetrics/reference/download_40man_roster.md)
-  : Download MLB 40-Man Rosters
 - [`download_baseballsavant()`](https://saberpowers.github.io/sabRmetrics/reference/download_baseballsavant.md)
   : Download MLB data from baseballsavant.mlb.com
 - [`download_player()`](https://saberpowers.github.io/sabRmetrics/reference/download_player.md)
