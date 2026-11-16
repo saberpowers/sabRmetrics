@@ -2,6 +2,7 @@
 # sabRmetrics 1.3.0 (in development)
 
 - Add new `download_40man_roster()` function
+- Extract ABS challenges on the pitch that ends the plate appearance (#39)
 
 # sabRmetrics 1.2.1 (2026-03-31)
 
