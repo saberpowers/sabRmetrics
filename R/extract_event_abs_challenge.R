@@ -1,20 +1,20 @@
-#' Extract event-level reviews
+#' Extract event-level ABS challenges
 #'
-#' When a reviewed play ends the plate appearance (e.g. an ABS challenge on strike three or ball
-#' four), the MLB statsapi attaches the review details to the event (plate appearance) rather than
-#' to the play (pitch). This function finds those reviews and identifies the play to which each
-#' one belongs: the final pitch of the event (or the final play, if the event has no pitch).
+#' When a challenged pitch ends the plate appearance (strike three or ball four), the MLB statsapi
+#' attaches the review details to the event (plate appearance) rather than to the play (pitch).
+#' This function finds those ABS challenges and identifies the pitch to which each one belongs:
+#' the final pitch of the event.
 #'
-#' An event can have more than one review (the others are listed in `additionalReviews`). Because
-#' a play can hold only one review, we keep the ABS challenge if there is one, else the first.
+#' The ABS challenge is usually the event's main review, but it can also be listed under
+#' `additionalReviews` (when another review, e.g. of a tag play, holds the main slot).
 #'
 #' @param event_data dataframe of events (`liveData$plays$allPlays`) from the statsapi game feed
 #'
-#' @return a dataframe with one row per reviewed event, with columns `event_index`, `play_index`,
-#'   `event_is_overturned`, `event_review_type`, `event_challenge_team_id` and
-#'   `event_challenge_player_id`
+#' @return a dataframe with one row per event with an event-level ABS challenge, with columns
+#'   `event_index`, `play_index`, `event_is_overturned`, `event_review_type`,
+#'   `event_challenge_team_id` and `event_challenge_player_id`
 #'
-extract_event_review <- function(event_data) {
+extract_event_abs_challenge <- function(event_data) {
 
   tidy_review <- function(review) {
     tibble::tibble(
@@ -28,7 +28,7 @@ extract_event_review <- function(event_data) {
   review_data <- event_data$reviewDetails
   is_reviewed <- which(!is.na(replace_null(review_data$reviewType)))
 
-  event_review <- lapply(
+  event_abs_challenge <- lapply(
     X = is_reviewed,
     FUN = function(i) {
       review <- tidy_review(review_data[i, ])
@@ -36,19 +36,18 @@ extract_event_review <- function(event_data) {
         review <- dplyr::bind_rows(review, tidy_review(review_data$additionalReviews[[i]]))
       }
       play_data <- event_data$playEvents[[i]]
-      is_pitch <- play_data$type == "pitch"
       review |>
-        dplyr::slice(order(event_review_type != "MJ")) |>   # put the ABS challenge first, if any
+        dplyr::filter(event_review_type == "MJ", any(play_data$type == "pitch")) |>
         dplyr::slice(1) |>
-        tibble::add_column(
+        dplyr::mutate(
           event_index = event_data$about$atBatIndex[i],
-          play_index = max(play_data$index[is_pitch | !any(is_pitch)]),
+          play_index = max(play_data$index[play_data$type == "pitch"]),
           .before = 1
         )
     }
   )
 
-  # Start from an empty dataframe so that the columns exist even if no event was reviewed
+  # Start from an empty dataframe so that the columns exist even if there is no such challenge
   empty <- tibble::tibble(
     event_index = integer(),
     play_index = integer(),
@@ -58,5 +57,5 @@ extract_event_review <- function(event_data) {
     event_challenge_player_id = integer()
   )
 
-  return(dplyr::bind_rows(empty, event_review))
+  return(dplyr::bind_rows(empty, event_abs_challenge))
 }

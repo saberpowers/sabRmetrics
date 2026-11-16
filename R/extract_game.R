@@ -89,10 +89,10 @@ extract_game <- function(game_id) {
     hit_coord_x = play_data$hitData$coordinates$coordX,
     hit_coord_y = play_data$hitData$coordinates$coordY,
   ) |>
-  # A review of the play that ends the plate appearance (e.g. an ABS challenge on strike three or
-  # ball four) is attached to the event instead of the play, so we have to look there as well.
-  # Bug details: https://github.com/saberpowers/sabRmetrics/issues/39
-  dplyr::left_join(extract_event_review(event_data), by = c("event_index", "play_index")) |>
+  # An ABS challenge of the pitch that ends the plate appearance (strike three or ball four) is
+  # attached to the event instead of the pitch, so we have to look there as well.
+  # Details: https://github.com/saberpowers/sabRmetrics/issues/39
+  dplyr::left_join(extract_event_abs_challenge(event_data), by = c("event_index", "play_index")) |>
   dplyr::mutate(
     is_reviewed = is_reviewed | !is.na(event_review_type),
     is_overturned = dplyr::coalesce(is_overturned, event_is_overturned),
