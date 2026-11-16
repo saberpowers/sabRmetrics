@@ -89,6 +89,17 @@ extract_game <- function(game_id) {
     hit_coord_x = play_data$hitData$coordinates$coordX,
     hit_coord_y = play_data$hitData$coordinates$coordY,
   ) |>
+  # A review of the play that ends the plate appearance (e.g. an ABS challenge on strike three or
+  # ball four) is attached to the event instead of the play, so we have to look there as well.
+  # Bug details: https://github.com/saberpowers/sabRmetrics/issues/39
+  dplyr::left_join(extract_event_review(event_data), by = c("event_index", "play_index")) |>
+  dplyr::mutate(
+    is_reviewed = is_reviewed | !is.na(event_review_type),
+    is_overturned = dplyr::coalesce(is_overturned, event_is_overturned),
+    review_type = dplyr::coalesce(review_type, event_review_type),
+    challenge_team_id = dplyr::coalesce(challenge_team_id, event_challenge_team_id),
+    challenge_player_id = dplyr::coalesce(challenge_player_id, event_challenge_player_id)
+  ) |>
   # Get pre-pitch count and disengagements
   dplyr::group_by(game_id, event_index) |>
   # We have to track the number of disengagements throughout the end of each plate appearance.
