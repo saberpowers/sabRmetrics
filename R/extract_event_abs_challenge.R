@@ -36,8 +36,11 @@ extract_event_abs_challenge <- function(event_data) {
         review <- dplyr::bind_rows(review, tidy_review(review_data$additionalReviews[[i]]))
       }
       play_data <- event_data$playEvents[[i]]
+      review <- dplyr::filter(review, event_review_type == "MJ")
+      if (nrow(review) == 0 || !any(play_data$type == "pitch")) {
+        return(NULL)
+      }
       review |>
-        dplyr::filter(event_review_type == "MJ", any(play_data$type == "pitch")) |>
         dplyr::slice(1) |>
         dplyr::mutate(
           event_index = event_data$about$atBatIndex[i],
